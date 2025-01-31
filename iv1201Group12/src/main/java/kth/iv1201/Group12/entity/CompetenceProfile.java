@@ -1,8 +1,6 @@
 package kth.iv1201.Group12.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 
@@ -11,8 +9,12 @@ import jakarta.persistence.Table;
 public class CompetenceProfile {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="competence_profile_id;")
     private int  competence_profile_id;
+    @Column(name ="person_id")
     private  int person_id;
+    @Column(name ="years_of_experience")
     private float years_of_experience;
 
     public CompetenceProfile(int competence_profile_id, int person_id, float years_of_experience) {

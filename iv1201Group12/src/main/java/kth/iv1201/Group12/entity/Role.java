@@ -1,13 +1,16 @@
 package kth.iv1201.Group12.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Role {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id ")
     private int role_id;
+
+    @Column(name = "name")
     private String name;
 
     public Role(int role_id, String name) {

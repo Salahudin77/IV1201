@@ -2,6 +2,7 @@ package kth.iv1201.Group12.presenter;
 import kth.iv1201.Group12.application.PersonService;
 
 
+import kth.iv1201.Group12.domain.PersonDTO;
 import kth.iv1201.Group12.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,12 @@ public class PersonController {
         this.personService = personService;
     }
 
-
-    public List<Person> getAllPeople(){
+    @GetMapping(path = "/persons")
+    public List<Person> getAllPeoples(){
         return personService.getAllPersons();
     }
-    @GetMapping(path = "/getById/{id}")
-    public Person getThePersonById(@PathVariable int id){
+    //@GetMapping(path = "/getById/{id}")
+    public PersonDTO getThePersonById(int id){
         return personService.getPersonById(id);
     }
 

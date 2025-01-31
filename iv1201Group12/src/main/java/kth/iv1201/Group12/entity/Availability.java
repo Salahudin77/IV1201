@@ -1,20 +1,21 @@
 package kth.iv1201.Group12.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class Availability {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "availability_id")
     private int availability_id;
+    @Column(name = "person_id ")
     private int person_id;
-
+    @Column(name ="from_date")
     private LocalDateTime  from_date;
-
+    @Column(name =" to_date")
     private LocalDateTime   to_date;
 
     public Availability(int availability_id, int person_id, LocalDateTime from_date, LocalDateTime to_date) {

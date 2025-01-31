@@ -3,18 +3,25 @@ package kth.iv1201.Group12.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "person")
+@Table(name="person")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int  person_id;
+    @Column(name = "person_id ")
+    private int person_id;
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "surname")
     private String surname;
 
+    @Column(name = "password")
+
     private String password;
+    @Column(name = "role_id")
+    private int role_id;
 
-    private int  role_id;
-
+    @Column(name = "username")
     private String username;
 
 
@@ -25,6 +32,9 @@ public class Person {
         this.password = password;
         this.role_id = role_id;
         this.username = username;
+    }
+    public Person(){
+
     }
 
     public String getName() {
@@ -59,31 +69,4 @@ public class Person {
         this.username = username;
     }
 
-    public Person(){
-
-    }
-
-    public int getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public void name(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
 }

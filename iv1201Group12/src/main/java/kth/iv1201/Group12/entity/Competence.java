@@ -1,8 +1,6 @@
 package kth.iv1201.Group12.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 
@@ -10,6 +8,8 @@ import jakarta.persistence.Table;
 
 public class Competence {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "competence_id")
     private int competence_id;
 
     private String name;
