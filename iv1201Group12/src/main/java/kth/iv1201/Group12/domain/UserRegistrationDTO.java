@@ -1,8 +1,5 @@
 package kth.iv1201.Group12.domain;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class UserRegistrationDTO {
 
@@ -14,8 +11,8 @@ public class UserRegistrationDTO {
     @Email(message = "Not a email, please use correct format")
     @NotBlank(message = "Email field cannot be blank")
     private String email;
-    @NotBlank(message = "Person number cannot be blank")
-    private int personNumber;
+    @NotNull(message = "Person number cannot be blank")
+    private String personNumber;
     @NotBlank(message = "User Name cannot be blank")
     @Size(message = "Must be at least 4 characters")
     private String userName;
@@ -24,15 +21,23 @@ public class UserRegistrationDTO {
     @Size(message = "Must be at least 6 characters")
     private String password;;
 
+    @NotNull(message = "role id cannot be blank")
+    private int roleId;
 
-    public UserRegistrationDTO(String firstName, String lastName, String email, int personNumber, String userName, String password) {
+    public UserRegistrationDTO(String firstName, String lastName, String email, String personNumber, String userName, String password, int roleId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.personNumber = personNumber;
         this.userName = userName;
         this.password = password;
+        this.roleId = roleId;
     }
+
+
+
+
+
     public  UserRegistrationDTO(){
 
     }
@@ -61,11 +66,11 @@ public class UserRegistrationDTO {
         this.email = email;
     }
 
-    public int getPersonNumber() {
+    public String getPersonNumber() {
         return personNumber;
     }
 
-    public void setPersonNumber(int personNumber) {
+    public void setPersonNumber(String personNumber) {
         this.personNumber = personNumber;
     }
 
@@ -85,14 +90,11 @@ public class UserRegistrationDTO {
         this.password = password;
     }
 
+    public int getRoleId() {
+        return roleId;
+    }
 
-
-
-
-
-
-
-
-
-
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 }

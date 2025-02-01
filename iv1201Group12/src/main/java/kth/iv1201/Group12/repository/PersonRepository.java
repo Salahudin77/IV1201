@@ -15,11 +15,16 @@ import java.util.Optional;
 
     List<Person> findAll();
 
-    @Query("SELECT p.name AS name, p.surname AS surname, p.username AS username FROM Person p WHERE p.person_id = :person_id")
 
-    Optional<PersonDTO> findPersonById(int person_id);
+    Optional <Person>findPersonByPersonNumber(String person_id);
+    Optional< Person> findByUserName(String userName);
+    Optional <Person> findByEmail(String email);
 
-    Optional<PersonDTO> saveUser();
+
+
+
+
+    //Optional<PersonDTO> saveUser();
 
 
 
