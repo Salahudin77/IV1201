@@ -2,9 +2,5 @@
   "name": "jsx",
   "lockfileVersion": 3,
   "requires": true,
-  "packages": {
-    "": {
-      "name": "jsx"
-    }
-  }
+  "packages": {}
 }
