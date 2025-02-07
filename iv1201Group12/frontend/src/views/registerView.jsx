@@ -8,6 +8,7 @@ const RegisterView = () => {
     return (
         <div className="container">
             <p className="back-to-login" onClick={() => navigate("/login")}>Back to login</p>
+
             <h2>Register</h2>
 
             <form>

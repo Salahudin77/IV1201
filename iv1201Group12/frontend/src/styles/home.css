@@ -1,14 +1,24 @@
-/* Background styling */
+/* Ensure full-screen background */
 .home-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to bottom, #1e3a8a, #0d1b50);
-    position: relative;
+    width: 100vw;
+    background: #1e3a8a; /* Ensure uniform background */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent unwanted elements from showing */
 }
 
-/* Light gray box */
+/* Remove any extra background effects */
+body, html {
+    margin: 0;
+    padding: 0;
+    background: #1e3a8a !important; /* Force uniform background */
+}
+
+/* Box in the center */
 .home-box {
     background: #d1d5db;
     padding: 40px;
@@ -16,31 +26,16 @@
     text-align: center;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     width: 350px;
+    z-index: 10; /* Ensure it's above any background elements */
 }
 
-/* Title styling */
-.home-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+/* Remove any hidden divs affecting layout */
+.home-container::before {
+    content: none !important;
+    background: none !important;
 }
 
-/* Subtitle text */
-.home-text {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* Buttons container */
-.home-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-
-/* Buttons */
+/* Button styling */
 .home-btn {
     background: #3b5998;
     color: white;

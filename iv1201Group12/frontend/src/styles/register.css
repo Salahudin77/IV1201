@@ -68,6 +68,21 @@ button:hover {
     font-size: 14px;
     margin-bottom: 10px;
 }
+/* Back to login button */
+.back-to-login {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.back-to-login:hover {
+    color: #3b5998; /* Hover effect changes text color */
+    text-decoration: underline;
+}
+
 
 .error-message {
     color: red;
