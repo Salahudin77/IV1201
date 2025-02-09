@@ -3,7 +3,7 @@ import { RegisterModel } from "../models/registerModel";
 export class RegisterPresenter {
     constructor(updateView) {
         this.model = new RegisterModel();
-        this.updateView = updateView;
+        this.updateView = updateView; // Store the update function
     }
 
     async handleRegister(userData) {

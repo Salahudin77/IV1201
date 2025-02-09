@@ -1,6 +1,9 @@
+import UserSource from "../userSource";
+
 export class RegisterModel {
     constructor() {
         this.users = [];
+      
     }
 
     async register(userData) {
@@ -17,6 +20,7 @@ export class RegisterModel {
                     reject({ success: false, message: "User already exists!" });
                 } else {
                     this.users.push(userData);
+                    UserSource.createAccount(userData);
                     resolve({ success: true, message: "Registration successful!" });
                 }
             }, 1000);
