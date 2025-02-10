@@ -6,24 +6,29 @@ export class RegisterModel {
       
     }
 
-    async register(userData) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                const { email, username } = userData;
+async register(userData) {
+    // Simulate delay with async/await
+    await new Promise(resolve => setTimeout(resolve, 1000)); 
 
-                // Check if email or username is already taken
-                const existingUser = this.users.find(
-                    (user) => user.email === email || user.username === username
-                );
+    const { email, username } = userData;
 
-                if (existingUser) {
-                    reject({ success: false, message: "User already exists!" });
-                } else {
-                    this.users.push(userData);
-                    UserSource.createAccount(userData);
-                    resolve({ success: true, message: "Registration successful!" });
-                }
-            }, 1000);
-        });
+    // Check if email or username is already taken
+    const existingUser = this.users.find(
+        (user) => user.email === email || user.username === username
+    );
+
+    if (existingUser) {
+        return { success: false, message: "User already exists!" };
+    } else {
+        this.users.push(userData);
+
+        try {
+            const apiResponse = await UserSource.createAccount(userData);
+            return { success: true, message: "Registration successful!" };
+        } catch (error) {
+            return { success: false, message: "API registration failed!" };
+        }
     }
+}
+
 }
