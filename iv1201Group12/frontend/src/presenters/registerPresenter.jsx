@@ -1,6 +1,6 @@
 import { RegisterModel } from "../models/registerModel";
 
-export class RegisterPresenter {
+export default class RegisterPresenter {
     constructor(updateView) {
         this.model = new RegisterModel();
         this.updateView = updateView;
