@@ -6,6 +6,7 @@ import kth.iv1201.Group12.domain.UserRegistrationDTO;
 import kth.iv1201.Group12.entity.Person;
 import kth.iv1201.Group12.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,15 +15,36 @@ import java.util.List;
 @Service
 public class PersonService {
     private PersonRepository personRepository;
+    private PasswordEncoder passwordEncoder;
 
+
+    /**
+     * Constructor-based dependency injection for PersonRepository and PasswordEncoder.
+     *
+     * @param personRepository Repository for accessing person data.
+     */
     @Autowired
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
+    /**
+     * Retrieves a list of all persons stored in the database.
+     *
+     * @return A list of Person entities.
+     */
+
     public List<Person> getAllPersons() {
         return personRepository.findAll();
     }
+
+    /**
+     * Retrieves a person based on their unique person number.
+     *
+     * @param person_id The unique personal identification number.
+     * @return The corresponding Person entity if found.
+     * @throws RuntimeException If no person is found with the given ID.
+     */
 
 
     public Person getPersonById(String person_id) {
@@ -31,6 +53,12 @@ public class PersonService {
 
 
     }
+    /**
+     * Registers a new user in the system after validating unique constraints.
+     *
+     * @param userRegistrationDTO The user registration data transfer object containing user details.
+     * @throws RuntimeException If the username, person number, or email already exists in the database.
+     */
 
     @Transactional
     public void registerUser(UserRegistrationDTO userRegistrationDTO) {
@@ -44,15 +72,22 @@ public class PersonService {
         if (personRepository.findByEmail(userRegistrationDTO.getEmail()).isPresent()) {
             throw new RuntimeException("The email is present: " + userRegistrationDTO.getEmail());
         }
+
+        //userRegistrationDTO.setPassword(bCryptPasswordEncoder.encode(userRegistrationDTO.getPassword()));
+
+
+
+
         Person person = new Person(
                 userRegistrationDTO.getFirstName(),
                 userRegistrationDTO.getLastName(),
                 userRegistrationDTO.getPersonNumber(),
-                userRegistrationDTO.getPassword(),
-                userRegistrationDTO.getRoleId(),
+                passwordEncoder.encode(userRegistrationDTO.getPassword()),
                 userRegistrationDTO.getUserName(),
                 userRegistrationDTO.getEmail()
         );
+
+        person.setRoleId(2); // den här säger att role_id = 2 då är det en applicant
 
 
         personRepository.save(person);
