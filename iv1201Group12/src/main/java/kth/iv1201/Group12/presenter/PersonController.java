@@ -1,4 +1,5 @@
 package kth.iv1201.Group12.presenter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kth.iv1201.Group12.application.PersonService;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,8 @@ import kth.iv1201.Group12.domain.UserRegistrationDTO;
 import kth.iv1201.Group12.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.web.server.csrf.CsrfToken;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +26,7 @@ import java.util.List;
  * Controller for handling HTTP requests related to Person entities.
  * Provides endpoints for user registration, authentication, and data retrieval.
  */
-@RestController
+@Controller
 @RequestMapping("/api")
 public class PersonController {
     private PersonService personService;
@@ -37,8 +40,9 @@ public class PersonController {
      */
 
     @Autowired
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, AuthenticationManager authenticationManager) {
         this.personService = personService;
+        this.authenticationManager = authenticationManager;
     }
 
     /**
@@ -71,7 +75,21 @@ public class PersonController {
 
     @GetMapping(path = "/home")
     public String home() {
-        return "Home";
+        return "home";
+    }
+
+    @PostMapping(path = "/login")
+
+    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return ResponseEntity.ok("Login successful for user: " + username);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(401).body("Login failed: Invalid credentials.");
+        }
     }
 
     /**
@@ -85,6 +103,13 @@ public class PersonController {
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationDTO userDTO) {
         personService.registerUser(userDTO);
         return ResponseEntity.ok("User registered successfully");
+    }
+
+    @GetMapping(path = "/token")
+
+    public CsrfToken csrfToken(HttpServletRequest httpServletRequest){
+        return (CsrfToken) httpServletRequest.getAttribute("_csrf");
+
     }
 
     /**

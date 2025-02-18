@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 public class PersonService {
+
     private PersonRepository personRepository;
     private PasswordEncoder passwordEncoder;
 
@@ -75,14 +76,14 @@ public class PersonService {
 
         //userRegistrationDTO.setPassword(bCryptPasswordEncoder.encode(userRegistrationDTO.getPassword()));
 
-
+        String encodedPassword = passwordEncoder.encode(userRegistrationDTO.getPassword());
 
 
         Person person = new Person(
                 userRegistrationDTO.getFirstName(),
                 userRegistrationDTO.getLastName(),
                 userRegistrationDTO.getPersonNumber(),
-                passwordEncoder.encode(userRegistrationDTO.getPassword()),
+                encodedPassword,
                 userRegistrationDTO.getUserName(),
                 userRegistrationDTO.getEmail()
         );

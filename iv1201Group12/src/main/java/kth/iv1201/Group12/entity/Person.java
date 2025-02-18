@@ -30,7 +30,7 @@ public class Person {
     @Column(name = "email")
     private String email;
 
-    // Constructors
+
     public Person(int personId, String firstName, String lastName, String password, int roleId, String userName, String email) {
         this.personId = personId;
         this.firstName = firstName;
@@ -41,11 +41,10 @@ public class Person {
         this.email = email;
     }
 
-    public Person(String firstName, String lastName,String personNumber, String password, int roleId, String userName, String email) {
+    public Person(String firstName, String lastName,String personNumber, String password, String userName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.roleId = roleId;
         this.userName = userName;
         this.email = email;
         this.personNumber = personNumber;
@@ -69,8 +68,13 @@ public class Person {
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public int getRoleId() { return roleId; }
     public void setRoleId(int roleId) { this.roleId = roleId; }
