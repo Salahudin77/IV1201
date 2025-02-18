@@ -77,6 +77,8 @@ public class PersonService {
 
 
 
+        String encryptPass = userRegistrationDTO.getPassword().
+
 
         Person person = new Person(
                 userRegistrationDTO.getFirstName(),
