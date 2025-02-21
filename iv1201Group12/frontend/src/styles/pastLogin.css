@@ -1,0 +1,155 @@
+.applicant-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3a8a, #1e3a8a); /* Dark blue background */
+}
+
+.applicant-box {
+    background: #eceff1; /* Light gray background */
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    font-family: "Arial", sans-serif;
+}
+
+.applicant-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.applicant-text {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.applicant-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.apply-btn {
+    background: #8bc34a; /* Light green */
+    color: black;
+    padding: 8px 30px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.apply-btn:hover {
+    background: #7cb342;
+}
+
+.logout-btn {
+    background: #c62828; /* Dark red */
+    color: black;
+    padding: 8px 30px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: #b71c1c;
+}
+
+.applicant-or {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    margin: 10px 0;
+}
+.recruiter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3a8a, #1e3a8a); /* Dark blue background */
+}
+
+.recruiter-box {
+    background: #eceff1; /* Light gray background */
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    font-family: "Arial", sans-serif;
+}
+
+.recruiter-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.recruiter-text {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.recruiter-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.list-btn {
+    background: #8bc34a; /* Light green */
+    color: black;
+    padding: 8px 30px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.list-btn:hover {
+    background: #7cb342;
+}
+
+.logout-btn {
+    background: #c62828; /* Dark red */
+    color: black;
+    padding: 8px 30px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: #b71c1c;
+}
+
+.recruiter-or {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    margin: 10px 0;
+}
+
