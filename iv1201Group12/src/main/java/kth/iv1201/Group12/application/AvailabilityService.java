@@ -12,21 +12,28 @@ import java.util.List;
 @Service
 public class AvailabilityService {
 
-    private AvailabilityRepository availabilityService;
+    private AvailabilityRepository availabilityRepository;
     private PersonService personService;
 
-    public AvailabilityService(AvailabilityRepository availabilityService) {
-        this.availabilityService = availabilityService;
+    public AvailabilityService(AvailabilityRepository availabilityRepository, PersonService personService) {
+        this.availabilityRepository = availabilityRepository;
+        this.personService = personService;
+
     }
-    public List<Availability>getAllavailabilities(){
-        return availabilityService.findAll();
+
+    public List<Availability> getAllavailabilities() {
+        return availabilityRepository.findAll();
     }
 
-    /*public String availablePeriod(LocalDateTime from, LocalDateTime to, int person_id){
-        Person applicant = personService.getLoggedInUser(person_id);
+    public void availablePeriod(LocalDateTime from, LocalDateTime to) {
+        Person applicant = personService.getLoggedInUser();
 
-     */
+        Availability availability = new Availability();
+        availability.setFrom_date(from);
+        availability.setTo_date(to);
 
+        availabilityRepository.save(availability);
+    }
     }
 
 

@@ -10,6 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 
 @Service
@@ -24,8 +27,10 @@ public class PersonService {
      * @param personRepository Repository for accessing person data.
      */
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+
         this.personRepository = personRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -53,6 +58,13 @@ public class PersonService {
 
 
     }
+
+    public Person getLoggedInUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return personRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+    }
     /**
      * Registers a new user in the system after validating unique constraints.
      *
@@ -74,10 +86,6 @@ public class PersonService {
         }
 
         //userRegistrationDTO.setPassword(bCryptPasswordEncoder.encode(userRegistrationDTO.getPassword()));
-
-
-
-        String encryptPass = userRegistrationDTO.getPassword().
 
 
         Person person = new Person(

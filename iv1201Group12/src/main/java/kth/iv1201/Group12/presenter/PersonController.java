@@ -1,22 +1,26 @@
 package kth.iv1201.Group12.presenter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import kth.iv1201.Group12.application.AvailabilityService;
+import kth.iv1201.Group12.application.CompetenceProfileService;
 import kth.iv1201.Group12.application.PersonService;
+import kth.iv1201.Group12.domain.AvailabityDTO;
 import org.springframework.http.ResponseEntity;
-import kth.iv1201.Group12.domain.PersonDTO;
 import kth.iv1201.Group12.domain.UserRegistrationDTO;
 import kth.iv1201.Group12.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import kth.iv1201.Group12.domain.LoginDTO;
+import kth.iv1201.Group12.domain.CompetenceProfileDTO;
+import kth.iv1201.Group12.application.CompetenceProfileService;
+import org.springframework.security.core.*;
 
 
 /**
@@ -26,8 +30,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class PersonController {
-    private PersonService personService;
-    private AuthenticationManager authenticationManager;
+    private final PersonService personService;
+    private final AuthenticationManager authenticationManager;
+
+    private final CompetenceProfileService competenceProfileService;
+
+    private final AvailabilityService availabilityService;
 
 
     /**
@@ -37,8 +45,11 @@ public class PersonController {
      */
 
     @Autowired
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, AuthenticationManager authenticationManager, CompetenceProfileService competenceProfileService, AvailabilityService availabilityService) {
         this.personService = personService;
+        this.authenticationManager = authenticationManager;
+        this.competenceProfileService = competenceProfileService;
+        this.availabilityService = availabilityService;
     }
 
     /**
@@ -87,34 +98,51 @@ public class PersonController {
         return ResponseEntity.ok("User registered successfully");
     }
 
-    /**
-     * Authenticates a user based on username and password.
-     * (Currently commented out)
-     *
-     * @param username The username of the user attempting to log in.
-     * @param password The password of the user attempting to log in.
-     * @return A ResponseEntity containing a success or failure message.
-     */
-    /*
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
+        // 1) Authenticate the credentials
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
+        );
 
-    /*@PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
-        if (username.isBlank() || password.isBlank()) {
-            return ResponseEntity.badRequest().body("Username and password must not be empty.");
-        }
+        // 2) Set user authentication in Spring Security context
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok("Login successful for user: " + username);
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).body("Login failed: Invalid credentials.");
-        }
+        // 3) Force session creation so Spring Security will issue a JSESSIONID cookie
+        HttpSession session = request.getSession(true);
+        System.out.println("Session ID: " + session.getId());
+
+
+        // Logging or debug info
+        System.out.println("DEBUG: User logged in -> " + auth.getName());
+
+        // 4) Return a success response (the Set-Cookie is added automatically by Spring)
+        return ResponseEntity.ok("Login successful");
     }
+
+
+    @PostMapping(path = "/addCompetence")
+    public ResponseEntity<String> addCompetence(@RequestBody CompetenceProfileDTO competenceDto) {
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        System.out.println("DEBUG: Authorities -> " + auth.getAuthorities());
+
+
+
+        competenceProfileService.addCompetence(
+                competenceDto.getCompetenceId(),
+                competenceDto.getYearsOfExperience()
+        );
+
+        return ResponseEntity.ok("Competence has been added for user: " );
+    }
+    @PostMapping(path = "/availability")
+    public ResponseEntity <String> addAvailablePeriods(@RequestBody AvailabityDTO availabityDTO){
+        availabilityService.availablePeriod(availabityDTO.getFrom(),availabityDTO.getTo());
+        return ResponseEntity.ok("The availability Periods have been added!");
+
+    }
+
 }
 
-     */
-}
 

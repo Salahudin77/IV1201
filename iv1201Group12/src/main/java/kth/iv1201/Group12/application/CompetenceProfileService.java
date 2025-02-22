@@ -1,7 +1,10 @@
 package kth.iv1201.Group12.application;
 
+import kth.iv1201.Group12.entity.Competence;
 import kth.iv1201.Group12.entity.CompetenceProfile;
+import kth.iv1201.Group12.entity.Person;
 import kth.iv1201.Group12.repository.CompetenceProfileRepository;
+import kth.iv1201.Group12.repository.CompetenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,6 +18,9 @@ import java.util.List;
 
 public class CompetenceProfileService {
     private CompetenceProfileRepository competenceProfileRepository;
+    private PersonService personService;
+
+    private CompetenceRepository competenceRepository;
 
     /**
      * Constructor-based dependency injection for CompetenceRepository.
@@ -23,16 +29,28 @@ public class CompetenceProfileService {
      */
 
     @Autowired
-    public CompetenceProfileService(CompetenceProfileRepository competenceProfileRepository) {
+    public CompetenceProfileService(CompetenceProfileRepository competenceProfileRepository, PersonService personService, CompetenceRepository competenceRepository) {
         this.competenceProfileRepository = competenceProfileRepository;
+        this.personService = personService;
+        this.competenceRepository = competenceRepository;
     }
+
     /**
      * Retrieves a list of all competences stored in the database.
      *
      * @return A list of CompetenceProfile entities.
      */
-    public List <CompetenceProfile> competenceList(){
+    public List<CompetenceProfile> competenceList() {
         return competenceProfileRepository.findAll();
 
+    }
+
+    public void addCompetence(int competenceId, float yearsOfExperience) {
+        Person applicant = personService.getLoggedInUser(); // Get the logged-in user
+        CompetenceProfile competenceProfile = new CompetenceProfile();
+        competenceProfile.setApplicant(applicant);
+        competenceProfile.setYears_of_experience(yearsOfExperience);
+
+         competenceProfileRepository.save(competenceProfile);
     }
 }

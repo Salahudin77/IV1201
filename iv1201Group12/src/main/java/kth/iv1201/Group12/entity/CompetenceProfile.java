@@ -10,7 +10,7 @@ public class CompetenceProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="competence_profile_id;")
+    @Column(name ="competence_profile_id")
     private int  competence_profile_id;
 
     @ManyToOne
@@ -37,9 +37,6 @@ public class CompetenceProfile {
         this.competence_profile_id = competence_profile_id;
     }
 
-    public Person getApplicant() {
-        return applicant;
-    }
 
     public void setApplicant(Person applicant) {
         this.applicant = applicant;

@@ -26,6 +26,7 @@ public class CompetenceService {
     @Autowired
     public CompetenceService(CompetenceRepository competenceRepository) {
         this.competenceRepository = competenceRepository;
+
     }
     /**
      * Retrieves a list of all competences stored in the database.

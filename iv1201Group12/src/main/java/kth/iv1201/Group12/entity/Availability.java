@@ -11,16 +11,18 @@ public class Availability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "availability_id")
     private int availability_id;
-    @Column(name = "person_id ")
-    private int person_id;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    private Person applicant;
+
     @Column(name ="from_date")
     private LocalDateTime  from_date;
     @Column(name =" to_date")
     private LocalDateTime   to_date;
 
-    public Availability(int availability_id, int person_id, LocalDateTime from_date, LocalDateTime to_date) {
+    public Availability(int availability_id, Person applicant, LocalDateTime from_date, LocalDateTime to_date) {
         this.availability_id = availability_id;
-        this.person_id = person_id;
+        this.applicant = applicant;
         this.from_date = from_date;
         this.to_date = to_date;
     }
@@ -36,13 +38,15 @@ public class Availability {
         this.availability_id = availability_id;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public Person getApplicant() {
+        return applicant;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setApplicant(Person applicant) {
+        this.applicant = applicant;
     }
+
+
 
     public LocalDateTime getFrom_date() {
         return from_date;
