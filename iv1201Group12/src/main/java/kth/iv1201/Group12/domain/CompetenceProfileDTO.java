@@ -2,7 +2,7 @@ package kth.iv1201.Group12.domain;
 
 public class CompetenceProfileDTO {
     private int competenceId;
-    private int yearsOfExperience;
+    private float yearsOfExperience;
 
     public CompetenceProfileDTO(int competenceId, int yearsOfExperience) {
         this.competenceId = competenceId;
@@ -17,7 +17,7 @@ public class CompetenceProfileDTO {
         this.competenceId = competenceId;
     }
 
-    public int getYearsOfExperience() {
+    public float getYearsOfExperience() {
         return yearsOfExperience;
     }
 

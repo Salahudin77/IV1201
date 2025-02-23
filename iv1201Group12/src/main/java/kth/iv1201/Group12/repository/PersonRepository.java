@@ -42,6 +42,8 @@ import java.util.Optional;
      */
     Optional <Person> findByEmail(String email);
 
+    Optional<Person>findPeopleByFirstName(String firstName);
+
 
     //Optional<PersonDTO> saveUser();
 

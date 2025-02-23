@@ -102,5 +102,11 @@ public class PersonService {
 
         personRepository.save(person);
     }
+    public void getApplicant(UserRegistrationDTO fullName){
+
+        //
+        // if();
+
+    }
 }
 

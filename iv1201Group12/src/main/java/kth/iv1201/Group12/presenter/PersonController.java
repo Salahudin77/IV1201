@@ -97,6 +97,10 @@ public class PersonController {
         personService.registerUser(userDTO);
         return ResponseEntity.ok("User registered successfully");
     }
+    private String getCurrentUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
@@ -110,7 +114,9 @@ public class PersonController {
 
         // 3) Force session creation so Spring Security will issue a JSESSIONID cookie
         HttpSession session = request.getSession(true);
-        System.out.println("Session ID: " + session.getId());
+        session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
+
 
 
         // Logging or debug info
@@ -123,22 +129,19 @@ public class PersonController {
 
     @PostMapping(path = "/addCompetence")
     public ResponseEntity<String> addCompetence(@RequestBody CompetenceProfileDTO competenceDto) {
-      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        System.out.println("DEBUG: Authorities -> " + auth.getAuthorities());
-
-
-
+        String userName = getCurrentUsername();
         competenceProfileService.addCompetence(
                 competenceDto.getCompetenceId(),
-                competenceDto.getYearsOfExperience()
+                competenceDto.getYearsOfExperience(),
+                userName
         );
 
         return ResponseEntity.ok("Competence has been added for user: " );
     }
     @PostMapping(path = "/availability")
     public ResponseEntity <String> addAvailablePeriods(@RequestBody AvailabityDTO availabityDTO){
-        availabilityService.availablePeriod(availabityDTO.getFrom(),availabityDTO.getTo());
+        String userName = getCurrentUsername();
+        availabilityService.availablePeriod(availabityDTO.getFrom(),availabityDTO.getTo(),userName);
         return ResponseEntity.ok("The availability Periods have been added!");
 
     }

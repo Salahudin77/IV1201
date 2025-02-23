@@ -5,6 +5,7 @@ import kth.iv1201.Group12.entity.CompetenceProfile;
 import kth.iv1201.Group12.entity.Person;
 import kth.iv1201.Group12.repository.CompetenceProfileRepository;
 import kth.iv1201.Group12.repository.CompetenceRepository;
+import kth.iv1201.Group12.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,7 +19,9 @@ import java.util.List;
 
 public class CompetenceProfileService {
     private CompetenceProfileRepository competenceProfileRepository;
-    private PersonService personService;
+
+    private PersonRepository personRepository;
+
 
     private CompetenceRepository competenceRepository;
 
@@ -29,9 +32,9 @@ public class CompetenceProfileService {
      */
 
     @Autowired
-    public CompetenceProfileService(CompetenceProfileRepository competenceProfileRepository, PersonService personService, CompetenceRepository competenceRepository) {
+    public CompetenceProfileService(CompetenceProfileRepository competenceProfileRepository, PersonRepository personRepository, CompetenceRepository competenceRepository) {
         this.competenceProfileRepository = competenceProfileRepository;
-        this.personService = personService;
+        this.personRepository = personRepository;
         this.competenceRepository = competenceRepository;
     }
 
@@ -45,10 +48,14 @@ public class CompetenceProfileService {
 
     }
 
-    public void addCompetence(int competenceId, float yearsOfExperience) {
-        Person applicant = personService.getLoggedInUser(); // Get the logged-in user
+    public void addCompetence(int competenceId, float yearsOfExperience, String username) {
+        Person applicant = personRepository.findByUserName(username)
+                . orElseThrow(() -> new RuntimeException("User not found"));
+        Competence competence = competenceRepository.findById(competenceId)
+                . orElseThrow(() -> new RuntimeException("User not found"));
         CompetenceProfile competenceProfile = new CompetenceProfile();
         competenceProfile.setApplicant(applicant);
+        competenceProfile.setCompetence(competence);
         competenceProfile.setYears_of_experience(yearsOfExperience);
 
          competenceProfileRepository.save(competenceProfile);

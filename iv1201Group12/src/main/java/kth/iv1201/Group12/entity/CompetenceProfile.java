@@ -16,13 +16,18 @@ public class CompetenceProfile {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     private Person applicant;
+    @ManyToOne
+    @JoinColumn(name = "competence_id", referencedColumnName = "competence_id")
+    private Competence competence;
+
 
     @Column(name ="years_of_experience")
     private float years_of_experience;
 
-    public CompetenceProfile(int competence_profile_id, Person applicant, float years_of_experience) {
+    public CompetenceProfile(int competence_profile_id, Person applicant, float years_of_experience, Competence competence) {
         this.competence_profile_id = competence_profile_id;
         this.applicant = applicant;
+        this.competence = competence;
         this.years_of_experience = years_of_experience;
     }
     public CompetenceProfile(){
@@ -48,6 +53,18 @@ public class CompetenceProfile {
 
     public void setYears_of_experience(float years_of_experience) {
         this.years_of_experience = years_of_experience;
+    }
+
+    public Person getApplicant() {
+        return applicant;
+    }
+
+    public Competence getCompetence() {
+        return competence;
+    }
+
+    public void setCompetence(Competence competence) {
+        this.competence = competence;
     }
 }
 

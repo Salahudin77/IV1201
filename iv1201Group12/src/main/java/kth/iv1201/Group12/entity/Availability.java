@@ -3,6 +3,7 @@ package kth.iv1201.Group12.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,18 +16,19 @@ public class Availability {
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     private Person applicant;
 
-    @Column(name ="from_date")
-    private LocalDateTime  from_date;
-    @Column(name =" to_date")
-    private LocalDateTime   to_date;
+    @Column(name = "from_date")
+    private LocalDate from_date;
+    @Column(name = " to_date")
+    private LocalDate to_date;
 
-    public Availability(int availability_id, Person applicant, LocalDateTime from_date, LocalDateTime to_date) {
+    public Availability(int availability_id, Person applicant, LocalDate from_date, LocalDate to_date) {
         this.availability_id = availability_id;
         this.applicant = applicant;
         this.from_date = from_date;
         this.to_date = to_date;
     }
-    public Availability(){
+
+    public Availability() {
 
     }
 
@@ -46,21 +48,22 @@ public class Availability {
         this.applicant = applicant;
     }
 
-
-
-    public LocalDateTime getFrom_date() {
+    public LocalDate getFrom_date() {
         return from_date;
     }
 
-    public void setFrom_date(LocalDateTime from_date) {
+    public void setFrom_date(LocalDate from_date) {
         this.from_date = from_date;
     }
 
-    public LocalDateTime getTo_date() {
+    public LocalDate getTo_date() {
         return to_date;
     }
 
-    public void setTo_date(LocalDateTime to_date) {
+    public void setTo_date(LocalDate to_date) {
         this.to_date = to_date;
     }
 }
+
+
+
