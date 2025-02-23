@@ -1,15 +1,20 @@
 package kth.iv1201.Group12.application;
 
 import jakarta.transaction.Transactional;
-import kth.iv1201.Group12.domain.PersonDTO;
-import kth.iv1201.Group12.domain.UserRegistrationDTO;
+import kth.iv1201.Group12.domain.*;
+import kth.iv1201.Group12.entity.Availability;
+import kth.iv1201.Group12.entity.CompetenceProfile;
 import kth.iv1201.Group12.entity.Person;
+import kth.iv1201.Group12.repository.AvailabilityRepository;
+import kth.iv1201.Group12.repository.CompetenceProfileRepository;
+import kth.iv1201.Group12.repository.CompetenceRepository;
 import kth.iv1201.Group12.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Service
 public class PersonService {
     private PersonRepository personRepository;
+    private CompetenceProfileRepository competenceProfileRepository;
+    private AvailabilityRepository availabilityRepository;
     private PasswordEncoder passwordEncoder;
 
 
@@ -27,10 +34,12 @@ public class PersonService {
      * @param personRepository Repository for accessing person data.
      */
     @Autowired
-    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder, CompetenceProfileRepository competenceProfileRepository, AvailabilityRepository availabilityRepository) {
 
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
+        this.competenceProfileRepository = competenceProfileRepository;
+        this.availabilityRepository = availabilityRepository;
     }
 
     /**
@@ -65,6 +74,7 @@ public class PersonService {
         return personRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
     }
+
     /**
      * Registers a new user in the system after validating unique constraints.
      *
@@ -74,7 +84,7 @@ public class PersonService {
 
     @Transactional
     public void registerUser(UserRegistrationDTO userRegistrationDTO) {
-        if (personRepository.findByUserName(userRegistrationDTO.getUserName()).isPresent()){
+        if (personRepository.findByUserName(userRegistrationDTO.getUserName()).isPresent()) {
             throw new RuntimeException("The User Name is present: " + userRegistrationDTO.getUserName());
         }
 
@@ -102,11 +112,35 @@ public class PersonService {
 
         personRepository.save(person);
     }
-    public void getApplicant(UserRegistrationDTO fullName){
 
-        //
-        // if();
+    public ApplicantSummaryDTO getApplicationSummary(String username) {
+        // Fetch applicant
+        Person applicant = personRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Fetch competence profiles & convert to DTO
+        List<CompetenceProfile> competenceProfiles = competenceProfileRepository.findByApplicant(applicant);
+        List<CompetenceProfileDTO> competenceDTOs = new ArrayList<>();
+        for (CompetenceProfile profile : competenceProfiles) {
+            CompetenceProfileDTO dto = new CompetenceProfileDTO(
+                    profile.getCompetence().getCompetence_id(),  // Get competence ID
+                    (int) profile.getYears_of_experience()       // Cast float to int if needed
+            );
+            competenceDTOs.add(dto);
+        }
+
+        // Fetch availability & convert to DTO
+        List<Availability> availabilities = availabilityRepository.findByApplicant(applicant);
+        List<AvailabityDTO> availabilityDTOs = new ArrayList<>();
+        for (Availability availability : availabilities) {
+            AvailabityDTO dto = new AvailabityDTO(
+                    availability.getFrom_date(),
+                    availability.getTo_date()
+            );
+            availabilityDTOs.add(dto);
+        }
+
+        // Return DTO with converted data
+        return new ApplicantSummaryDTO(applicant.getUserName(), competenceDTOs, availabilityDTOs);
     }
 }
-

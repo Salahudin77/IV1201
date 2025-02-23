@@ -5,9 +5,8 @@ import jakarta.validation.Valid;
 import kth.iv1201.Group12.application.AvailabilityService;
 import kth.iv1201.Group12.application.CompetenceProfileService;
 import kth.iv1201.Group12.application.PersonService;
-import kth.iv1201.Group12.domain.AvailabityDTO;
+import kth.iv1201.Group12.domain.*;
 import org.springframework.http.ResponseEntity;
-import kth.iv1201.Group12.domain.UserRegistrationDTO;
 import kth.iv1201.Group12.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
-import kth.iv1201.Group12.domain.LoginDTO;
-import kth.iv1201.Group12.domain.CompetenceProfileDTO;
+
 import kth.iv1201.Group12.application.CompetenceProfileService;
 import org.springframework.security.core.*;
 
@@ -146,6 +144,15 @@ public class PersonController {
 
     }
 
+    @GetMapping(path = "/application-summary")
+    public ResponseEntity<ApplicantSummaryDTO> getApplicationSummary() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        ApplicantSummaryDTO summary = personService.getApplicationSummary(username);
+        return ResponseEntity.ok(summary);
+    }
 }
+
+
+
 
 
