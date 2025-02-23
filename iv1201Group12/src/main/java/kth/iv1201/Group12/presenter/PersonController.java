@@ -150,6 +150,11 @@ public class PersonController {
         ApplicantSummaryDTO summary = personService.getApplicationSummary(username);
         return ResponseEntity.ok(summary);
     }
+    @GetMapping(path = "/fetchAllApplications")
+    public ResponseEntity<List<ApplicationRecuiterSeesDTO>> getAllApplications() {
+        return ResponseEntity.ok(personService.fetchAllApplications());
+    }
+
 }
 
 

@@ -5,10 +5,8 @@ import kth.iv1201.Group12.domain.*;
 import kth.iv1201.Group12.entity.Availability;
 import kth.iv1201.Group12.entity.CompetenceProfile;
 import kth.iv1201.Group12.entity.Person;
-import kth.iv1201.Group12.repository.AvailabilityRepository;
-import kth.iv1201.Group12.repository.CompetenceProfileRepository;
-import kth.iv1201.Group12.repository.CompetenceRepository;
-import kth.iv1201.Group12.repository.PersonRepository;
+import kth.iv1201.Group12.entity.Role;
+import kth.iv1201.Group12.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Service
 public class PersonService {
     private PersonRepository personRepository;
+    private RoleRepository roleRepository;
     private CompetenceProfileRepository competenceProfileRepository;
     private AvailabilityRepository availabilityRepository;
     private PasswordEncoder passwordEncoder;
@@ -143,4 +142,32 @@ public class PersonService {
         // Return DTO with converted data
         return new ApplicantSummaryDTO(applicant.getUserName(), competenceDTOs, availabilityDTOs);
     }
+
+
+    public List<ApplicationRecuiterSeesDTO> fetchAllApplications() {
+        List<Person> applicants = personRepository.findAll(); // Get all applicants
+        List<ApplicationRecuiterSeesDTO> applicantSummaries = new ArrayList<>();
+
+
+        for (Person applicant : applicants) {
+
+            if (applicant.getRoleId() != 1) {
+
+
+                ApplicationRecuiterSeesDTO applicantSummary = new ApplicationRecuiterSeesDTO(
+                        applicant.getUserName(),
+                        applicant.getFirstName(),
+                        applicant.getLastName(),
+                        "UNHANDLED"
+                );
+
+                applicantSummaries.add(applicantSummary);
+            }
+
+
+        }
+        return applicantSummaries;
+    }
 }
+
+
