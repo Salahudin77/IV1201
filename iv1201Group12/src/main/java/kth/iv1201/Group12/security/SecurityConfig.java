@@ -4,7 +4,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -15,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import java.util.*;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +27,7 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfig(@Lazy CustomUserDetailsService userDetailsService) {
+    public SecurityConfig( CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -52,13 +56,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configure(http))
                 .csrf(csrf -> csrf.disable())
+
 
 
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers("/api/register", "/api/login", "/css/**", "/js/**").permitAll() // Public endpoints
                                 .requestMatchers("/api/availability","/api/availability/**").hasRole("APPLICANT")
+                                .requestMatchers("/api/fetchAllApplications").hasRole("RECRUITER")
                                 .requestMatchers("/api/recruiter/**").hasRole("RECRUITER") // Only recruiters can access
                                 .requestMatchers("/api/applicant/**").hasRole("APPLICANT") // Only applicants can access
                                 .requestMatchers("/api/addCompetence").hasRole("APPLICANT")
@@ -74,5 +81,18 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:5173"));  // Allow your frontend URL
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));  // Allowed HTTP methods
+        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));  // Allowed headers
+        corsConfig.setAllowCredentials(true);  // Allow cookies to be sent with the request
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
+        return source;
     }
 }

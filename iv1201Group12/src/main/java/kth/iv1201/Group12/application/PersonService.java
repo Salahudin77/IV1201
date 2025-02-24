@@ -168,6 +168,32 @@ public class PersonService {
         }
         return applicantSummaries;
     }
+
+    public void updateUnhashedPasswords() {
+        List<Person> users = personRepository.findAll();
+
+        for (Person user : users) {
+            String password = user.getPassword();
+
+            if(password == null || password.isEmpty()){
+                continue;
+            }
+
+
+            if (!password.startsWith("$2a$")) {
+
+                String hashedPassword = passwordEncoder.encode(password);
+                user.setPassword(hashedPassword);
+                personRepository.save(user);
+                System.out.println("Updated password for: " + user.getUserName());
+            }
+        }
+
+
+        System.out.println("✅ All unhashed passwords are now encrypted!");
+    }
+
+
 }
 
 

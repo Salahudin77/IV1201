@@ -4,7 +4,7 @@ public class CompetenceProfileDTO {
     private int competenceId;
     private float yearsOfExperience;
 
-    public CompetenceProfileDTO(int competenceId, int yearsOfExperience) {
+    public CompetenceProfileDTO(int competenceId,float yearsOfExperience) {
         this.competenceId = competenceId;
         this.yearsOfExperience = yearsOfExperience;
     }

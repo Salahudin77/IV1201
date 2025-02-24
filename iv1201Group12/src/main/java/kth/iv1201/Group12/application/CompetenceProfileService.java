@@ -52,7 +52,7 @@ public class CompetenceProfileService {
         Person applicant = personRepository.findByUserName(username)
                 . orElseThrow(() -> new RuntimeException("User not found"));
         Competence competence = competenceRepository.findById(competenceId)
-                . orElseThrow(() -> new RuntimeException("User not found"));
+                . orElseThrow(() -> new RuntimeException("Invalid competence"));
         CompetenceProfile competenceProfile = new CompetenceProfile();
         competenceProfile.setApplicant(applicant);
         competenceProfile.setCompetence(competence);

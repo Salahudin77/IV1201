@@ -95,6 +95,7 @@ public class PersonController {
         personService.registerUser(userDTO);
         return ResponseEntity.ok("User registered successfully");
     }
+
     private String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
@@ -115,8 +116,6 @@ public class PersonController {
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
 
-
-
         // Logging or debug info
         System.out.println("DEBUG: User logged in -> " + auth.getName());
 
@@ -134,12 +133,13 @@ public class PersonController {
                 userName
         );
 
-        return ResponseEntity.ok("Competence has been added for user: " );
+        return ResponseEntity.ok("Competence has been added for user: ");
     }
+
     @PostMapping(path = "/availability")
-    public ResponseEntity <String> addAvailablePeriods(@RequestBody AvailabityDTO availabityDTO){
+    public ResponseEntity<String> addAvailablePeriods(@RequestBody AvailabityDTO availabityDTO) {
         String userName = getCurrentUsername();
-        availabilityService.availablePeriod(availabityDTO.getFrom(),availabityDTO.getTo(),userName);
+        availabilityService.availablePeriod(availabityDTO.getFrom(), availabityDTO.getTo(), userName);
         return ResponseEntity.ok("The availability Periods have been added!");
 
     }
@@ -150,14 +150,11 @@ public class PersonController {
         ApplicantSummaryDTO summary = personService.getApplicationSummary(username);
         return ResponseEntity.ok(summary);
     }
+
     @GetMapping(path = "/fetchAllApplications")
     public ResponseEntity<List<ApplicationRecuiterSeesDTO>> getAllApplications() {
         return ResponseEntity.ok(personService.fetchAllApplications());
     }
 
 }
-
-
-
-
 
