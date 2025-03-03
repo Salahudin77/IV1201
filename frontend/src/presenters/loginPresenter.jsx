@@ -3,15 +3,15 @@ import { LoginModel } from "../models/loginModel";
 export class LoginPresenter {
     constructor(updateView) {
         this.model = new LoginModel();
-        this.updateView = updateView;
+        this.updateView = updateView; // Store the update function
     }
 
-    async handleLogin(username, password) {
+    async handleRegister(userData) {
         try {
-            const response = await this.model.login(username, password);
-            this.updateView({ user: response.user, error: null });
+            const response = await this.model.login(userData);
+            this.updateView({ successMessage: response.message, errorMessage: null });
         } catch (error) {
-            this.updateView({ user: null, error: error.message });
+            this.updateView({ successMessage: null, errorMessage: error.message });
         }
     }
 }
