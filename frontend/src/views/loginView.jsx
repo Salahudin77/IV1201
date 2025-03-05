@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginPresenter } from "../presenters/loginPresenter";
 import "../styles/login.css";
+import { useTranslation } from "react-i18next";
 
 const LoginView = () => {
+    const { t } = useTranslation();
     const [credentials, setCredentials] = useState({ username: "", password: "" });
     const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
 
-    const presenter = new LoginPresenter(({ errorMessage }) => {
-        setErrorMessage(errorMessage);
+    const presenter = new LoginPresenter((error) => {
+        setErrorMessage(error);
     });
 
     const handleChange = (e) => {
@@ -45,8 +47,22 @@ const LoginView = () => {
             {errorMessage && <p className="error-message">{errorMessage}</p>}
 
             <form onSubmit={handleSubmit}>
-                <input type="text" name="username" placeholder="Username" onChange={handleChange} value={credentials.username} required />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} value={credentials.password} required />
+                <input 
+                    type="text" 
+                    name="username" 
+                    placeholder={t("username")} 
+                    onChange={handleChange} 
+                    value={credentials.username} 
+                    required 
+                />
+                <input 
+                    type="password" 
+                    name="password" 
+                    placeholder={t("password")} 
+                    onChange={handleChange} 
+                    value={credentials.password} 
+                    required 
+                />
 
                 <button type="submit">LOGIN</button>
             </form>
