@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   test: {
-    globals: true, // To use `test` and `expect` as global functions
-    environment: 'jsdom', // This is important for React tests
+    globals: true,  // To use `test` and `expect` as global functions
+    environment: 'jsdom',  // This is important for React tests
+    setupFiles: './test/setup.js',  // Point to the setup file where jest-dom is imported
   },
 })

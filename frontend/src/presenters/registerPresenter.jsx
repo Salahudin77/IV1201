@@ -8,7 +8,9 @@ export class RegisterPresenter {
 
     async handleRegister(userData) {
         try {
-            const response = await this.model.register(userData);
+            //const response = await this.model.register(userData);
+            console.log(userData)
+
             this.updateView({ successMessage: response.message, errorMessage: null });
         } catch (error) {
             this.updateView({ successMessage: null, errorMessage: error.message });

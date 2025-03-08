@@ -22,7 +22,7 @@ export class LoginModel {
             return { success: false, message: "Login failed" };
         }
     }
-    logout() {
-        this.user = null;
+    async logout() {
+        await UserSource.logout();
     }
 }

@@ -6,7 +6,7 @@ export class LoginPresenter {
         this.updateView = updateView; // Store the update function
     }
 
-    async handleRegister(userData) {
+    async handleLogin(userData) {
         try {
             const response = await this.model.login(userData);
             this.updateView({ successMessage: response.message, errorMessage: null });
