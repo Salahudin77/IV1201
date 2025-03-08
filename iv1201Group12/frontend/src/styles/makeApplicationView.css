@@ -7,6 +7,22 @@
     cursor: pointer;
     background-color: white;
 }
+.react-datepicker-popper {
+    position: absolute !important;
+    z-index: 15;
+}
+
+.date-picker-wrapper {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.date-picker {
+    width: 150px; /* Adjust width if needed */
+}
+
 
 .date-picker:focus {
     outline: none;
@@ -75,8 +91,14 @@
 .availability-section {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 15px;
+}
+.availability-period {
+    display: flex;
+    flex-direction: row;
+    gap: 20%;
 }
 
 .availability-section input {

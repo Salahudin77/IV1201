@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/home.css"; // Import the CSS file
+import Header from "./header.jsx";
+
 
 const HomeView = () => {
     const navigate = useNavigate();

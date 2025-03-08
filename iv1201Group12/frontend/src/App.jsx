@@ -6,6 +6,7 @@ import RegisterView from "./views/registerView";
 import LoggedInApplicantView from "./views/loggedInApplicantView.jsx"
 import LoggedInRecruiterView from "./views/loggedInRecruiterView.jsx";
 import MakeApplicationView from "./views/makeApplicationView.jsx"
+import ApplicationListView from "./views/applicationListView.jsx"
 function App() {
     return (
         <Router>
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/home" element={<HomeView />} />
                 <Route path="/login" element={<LoginView />} />
                 <Route path="/register" element={<RegisterView />} />
+                <Route path="/applicationList" element={<ApplicationListView/>} />
             </Routes>
         </Router>
     );
