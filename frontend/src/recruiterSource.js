@@ -1,4 +1,4 @@
-const applySource = {
+const recruiter = {
     async listApplications() {
         try {
             // Send GET request to backend using fetch
@@ -12,17 +12,26 @@ const applySource = {
 
             // Check if the response is successful (status code 200-299)
             if (!response.ok) {
-                throw new Error(`Failed to fetch applications: ${response.status} ${response.statusText}`);
+                const errorMessage = await response.text(); // Capture the error message from the server
+                throw new Error(`Failed to fetch applications: ${response.status} ${response.statusText}. ${errorMessage}`);
             }
 
-            // Parse and return the response JSON
-            return await response.json();
+            // Parse and return the response JSON, if valid
+            const data = await response.json();
+
+            // Check if the response is empty or not formatted correctly
+            if (!data || typeof data !== 'object') {
+                throw new Error('Invalid response format or empty data.');
+            }
+
+            return data;
 
         } catch (error) {
             console.error('Error fetching applications:', error);
+            // Return a structured error message
             return { success: false, message: error.message || 'Fetching applications failed' };
         }
     },
 };
 
-export default applySource;
+export default recruiter;

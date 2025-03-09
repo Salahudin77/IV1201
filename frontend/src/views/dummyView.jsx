@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import UserSource from "../userSource.js";
+import recruiter from "../recruiterSource.js";
+
+
 
 const DummyView = () => {
     const navigate = useNavigate();
@@ -19,8 +22,9 @@ const DummyView = () => {
 
     // Handle Add button click
     const handleAddButtonClick = async () => {
-        UserSource.createAccount(formData);
-    };
+        const app = await recruiter.listApplications();
+        console.log(app);
+    }
 
     return (
         <div className="home-container">

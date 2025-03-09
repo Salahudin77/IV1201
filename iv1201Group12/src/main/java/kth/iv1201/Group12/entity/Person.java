@@ -41,11 +41,10 @@ public class Person {
         this.email = email;
     }
 
-    public Person(String firstName, String lastName,String personNumber, String password, int roleId, String userName, String email) {
+    public Person(String firstName, String lastName,String personNumber, String password, String userName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.roleId = roleId;
         this.userName = userName;
         this.email = email;
         this.personNumber = personNumber;

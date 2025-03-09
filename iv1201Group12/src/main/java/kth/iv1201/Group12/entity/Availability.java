@@ -3,6 +3,7 @@ package kth.iv1201.Group12.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,20 +12,23 @@ public class Availability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "availability_id")
     private int availability_id;
-    @Column(name = "person_id ")
-    private int person_id;
-    @Column(name ="from_date")
-    private LocalDateTime  from_date;
-    @Column(name =" to_date")
-    private LocalDateTime   to_date;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    private Person applicant;
 
-    public Availability(int availability_id, int person_id, LocalDateTime from_date, LocalDateTime to_date) {
+    @Column(name = "from_date")
+    private LocalDate from_date;
+    @Column(name = " to_date")
+    private LocalDate to_date;
+
+    public Availability(int availability_id, Person applicant, LocalDate from_date, LocalDate to_date) {
         this.availability_id = availability_id;
-        this.person_id = person_id;
+        this.applicant = applicant;
         this.from_date = from_date;
         this.to_date = to_date;
     }
-    public Availability(){
+
+    public Availability() {
 
     }
 
@@ -36,27 +40,30 @@ public class Availability {
         this.availability_id = availability_id;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public Person getApplicant() {
+        return applicant;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setApplicant(Person applicant) {
+        this.applicant = applicant;
     }
 
-    public LocalDateTime getFrom_date() {
+    public LocalDate getFrom_date() {
         return from_date;
     }
 
-    public void setFrom_date(LocalDateTime from_date) {
+    public void setFrom_date(LocalDate from_date) {
         this.from_date = from_date;
     }
 
-    public LocalDateTime getTo_date() {
+    public LocalDate getTo_date() {
         return to_date;
     }
 
-    public void setTo_date(LocalDateTime to_date) {
+    public void setTo_date(LocalDate to_date) {
         this.to_date = to_date;
     }
 }
+
+
+

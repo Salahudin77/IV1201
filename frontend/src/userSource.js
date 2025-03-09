@@ -4,7 +4,7 @@
 const UserSource = {
     async createAccount(userData) {
         // Define the form data as a static object with new values
-      
+      console.log(userData)
         try {
             // Send POST request to backend using fetch
             const response = await fetch('http://localhost:8080/api/register', {
@@ -12,6 +12,7 @@ const UserSource = {
                 headers: {
                     'Content-Type': 'application/json',  // Ensure the server knows we're sending JSON
                 },
+                credentials: 'include',
                 body: JSON.stringify(userData),  // Send the form data as JSON
             });
 
@@ -39,6 +40,7 @@ const UserSource = {
                 headers: {
                     'Content-Type': 'application/json',  // Ensure the server knows we're sending JSON
                 },
+                credentials: 'include',
                 body: JSON.stringify(userData),  // Send the form data as JSON
             });
 

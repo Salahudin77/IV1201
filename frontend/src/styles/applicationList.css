@@ -1,0 +1,148 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+
+}
+
+body {
+    background: #4254D2;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 60px;
+}
+
+/* Header styles now in header.css */
+
+/* Page container styles */
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 60px); /* Subtract header height */
+    padding-top: 20px;
+}
+
+.container {
+    background: #E9E9E9;
+    width: 800px;
+    padding: 20px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-link {
+    font-size: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    text-align: left;
+    padding: 0;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 32px;
+    color: #000;
+    margin-bottom: 25px;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Rest of your table styles remain the same */
+.table-container {
+    border-radius: 4px;
+    overflow: visible;
+}
+
+.table-header {
+    display: flex;
+    background-color: #F7ECEC;
+    border-bottom: 1px solid #ccc;
+    font-weight: normal;
+}
+
+.header-cell {
+    flex: 1;
+    padding: 12px 15px;
+    text-align: left;
+    color: #000;
+}
+
+.table-content {
+    height: 250px;
+    overflow-y: auto;
+    background-color: #A0A0A0;
+    position: relative;
+}
+
+.table-row {
+    display: flex;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.cell {
+    flex: 1;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+/* Custom scrollbar styling */
+.table-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.table-content::-webkit-scrollbar-track {
+    background: white;
+}
+
+.table-content::-webkit-scrollbar-thumb {
+    background: black;
+}
+
+/* Status indicators */
+.loading-indicator, .empty-message {
+    padding: 20px;
+    text-align: center;
+    color: #555;
+    background-color: white;
+}
+
+.empty-message {
+    color: #666;
+    font-style: italic;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.retry-button {
+    background-color: #c62828;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.retry-button:hover {
+    background-color: #b71c1c;
+}

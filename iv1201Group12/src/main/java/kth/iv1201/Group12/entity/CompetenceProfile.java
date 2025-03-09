@@ -10,16 +10,24 @@ public class CompetenceProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="competence_profile_id;")
+    @Column(name ="competence_profile_id")
     private int  competence_profile_id;
-    @Column(name ="person_id")
-    private  int person_id;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    private Person applicant;
+    @ManyToOne
+    @JoinColumn(name = "competence_id", referencedColumnName = "competence_id")
+    private Competence competence;
+
+
     @Column(name ="years_of_experience")
     private float years_of_experience;
 
-    public CompetenceProfile(int competence_profile_id, int person_id, float years_of_experience) {
+    public CompetenceProfile(int competence_profile_id, Person applicant, float years_of_experience, Competence competence) {
         this.competence_profile_id = competence_profile_id;
-        this.person_id = person_id;
+        this.applicant = applicant;
+        this.competence = competence;
         this.years_of_experience = years_of_experience;
     }
     public CompetenceProfile(){
@@ -34,12 +42,9 @@ public class CompetenceProfile {
         this.competence_profile_id = competence_profile_id;
     }
 
-    public int getPerson_id() {
-        return person_id;
-    }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setApplicant(Person applicant) {
+        this.applicant = applicant;
     }
 
     public float getYears_of_experience() {
@@ -48,6 +53,18 @@ public class CompetenceProfile {
 
     public void setYears_of_experience(float years_of_experience) {
         this.years_of_experience = years_of_experience;
+    }
+
+    public Person getApplicant() {
+        return applicant;
+    }
+
+    public Competence getCompetence() {
+        return competence;
+    }
+
+    public void setCompetence(Competence competence) {
+        this.competence = competence;
     }
 }
 
