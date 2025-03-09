@@ -44,7 +44,7 @@ export const ApplicationListView = () => {
                                 {applications.length > 0 ? (
                                     applications.map((app, index) => (
                                         <div className="table-row" key={app.id || index}>
-                                            <div className="cell">{app.name || 'Unknown'}</div>
+                                            <div className="cell">{app.firstName + " " + app.lastName || 'Unknown'}</div>
                                             <div className="cell">{app.status || 'Pending'}</div>
                                         </div>
                                     ))

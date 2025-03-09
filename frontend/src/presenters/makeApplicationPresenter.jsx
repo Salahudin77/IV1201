@@ -12,8 +12,9 @@ export class MakeApplicationPresenter {
     }
 
     // Handle experience change
-    handleExperienceChange(jobRole, value) {
-        const result = this.model.setExperience(jobRole, value);
+    handleExperienceChange(competenceId, value) {
+        const result = this.model.setExperience(competenceId, value);
+        console.log(value)
         if (result.success) {
             // Update the view with the entire application data
             this.setApplicationData({

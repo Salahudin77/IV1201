@@ -1,22 +1,27 @@
 export class MakeApplicationModel {
     constructor() {
         this.applicationData = {
-            experiences: {
-                ticketSales: "",
-                lotteries: "",
-                rollerCoasterOperation: "",
-            },
+            experiences: [
+                { competenceId: 1, yearsOfExperience: 0.0 },
+                { competenceId: 2, yearsOfExperience: 0.0 },
+                { competenceId: 3, yearsOfExperience: 0.0 }
+            ],
             availability: [] // Store availability periods
         };
     }
 
-    // Set experience for a job role
-    setExperience(jobRole, value) {
+    // Set experience for a specific competenceId
+    setExperience(competenceId, value) {
         const numericValue = parseFloat(value);
+        console.log(this.applicationData)
         if (numericValue < 0) {
             return { success: false, message: "Invalid input: Must be a valid non-negative number." };
         }
-        this.applicationData.experiences[jobRole] = numericValue;
+        // Update the corresponding experience based on competenceId
+        const experience = this.applicationData.experiences.find(exp => exp.competenceId === competenceId);
+        if (experience) {
+            experience.yearsOfExperience = numericValue;
+        }
         return { success: true, value: numericValue };
     }
 
@@ -29,7 +34,6 @@ export class MakeApplicationModel {
 
     // Set availability for a specific period
     setAvailability(index, field, date) {
-        // Create a full copy of the availability array
         const updatedAvailability = this.applicationData.availability.map(period => ({...period}));
 
         // Ensure the period exists
@@ -37,7 +41,6 @@ export class MakeApplicationModel {
             updatedAvailability[index] = { from: null, to: null };
         }
 
-        // Important: Create a new object with both fields preserved
         const updatedPeriod = {
             from: updatedAvailability[index].from,
             to: updatedAvailability[index].to,
@@ -49,7 +52,6 @@ export class MakeApplicationModel {
             return { success: false, message: "'From' date must be before 'To' date." };
         }
 
-        // Update the period in our copy
         updatedAvailability[index] = updatedPeriod;
 
         // Update the model's data with our validated copy
@@ -65,7 +67,6 @@ export class MakeApplicationModel {
 
     // Submit the application (placeholder for actual submission logic)
     submitApplication() {
-        // Basic validation
         if (this.applicationData.availability.length === 0) {
             return { success: false, message: "Please add at least one availability period." };
         }
@@ -78,7 +79,6 @@ export class MakeApplicationModel {
         if (incomplete) {
             return { success: false, message: "Please complete all availability periods." };
         }
-
 
         console.log("Submitting application:", this.applicationData);
         return { success: true, message: "Application submitted successfully!", resetData: this.applicationData };
