@@ -31,14 +31,22 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Navigate to="/home" />} />
+
+                {/* Redirect login based on role */}
+                <Route
+                    path="/login"
+                    element={userRole ? <Navigate to={userRole === 'ROLE_APPLICANT' ? '/appLogin' : '/recLogin'} /> : <LoginView />}
+                />
+                <Route
+                    path="/register"
+                    element={userRole ? <Navigate to={userRole === 'ROLE_APPLICANT' ? '/appLogin' : '/recLogin'} /> : <RegisterView />}
+                />
                 
                 {/* Restrict access to routes based on the role */}
                 <Route path="/appLogin" element={userRole === 'ROLE_APPLICANT' ? <LoggedInApplicantView /> : <Navigate to="/login" />} />
                 <Route path="/recLogin" element={userRole === 'ROLE_RECRUITER' ? <LoggedInRecruiterView /> : <Navigate to="/login" />} />
                 <Route path="/applicationForm" element={userRole === 'ROLE_APPLICANT' ? <MakeApplicationView /> : <Navigate to="/login" />} />
                 <Route path="/home" element={<HomeView />} />
-                <Route path="/login" element={<LoginView />} />
-                <Route path="/register" element={<RegisterView />} />
                 <Route path="/applicationList" element={userRole === 'ROLE_RECRUITER' ? <ApplicationListView /> : <Navigate to="/login" />} />
                 <Route path="/dummy" element={<DummyView />} />
             </Routes>

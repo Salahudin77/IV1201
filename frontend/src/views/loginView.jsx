@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginPresenter } from "../presenters/loginPresenter";
 import "../styles/login.css";
+import { useTranslation } from "react-i18next";
 
 const LoginView = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
