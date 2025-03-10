@@ -1,34 +1,38 @@
 import UserSource from "../userSource";
 
 export class RegisterModel {
-    constructor() {
-        this.users = [];
-      
-    }
-
-async register(userData) {
-    // Simulate delay with async/await
-    await new Promise(resolve => setTimeout(resolve, 1000)); 
-
-    const { email, username } = userData;
-
-    // Check if email or username is already taken
-    const existingUser = this.users.find(
-        (user) => user.email === email || user.username === username
-    );
-
-    if (existingUser) {
-        return { success: false, message: "User already exists!" };
-    } else {
-        this.users.push(userData);
-
+  
+    async register(userData) {
+        // Simulate delay with async/await
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    
+        const { userName: username, password } = userData;
+        const credentials = { username, password };
+        console.log(credentials);
+    
         try {
-            const apiResponse = await UserSource.createAccount(userData);
-            return { success: true, message: "Registration successful!" };
+            // Attempt to create a new account
+            const apiResponse = await UserSource.createAccount(userData); // for register
+    
+            // If registration is successful, automatically log the user in
+            const loginResponse = await this.login(credentials); // Call login with the new credentials
+    
+            return { success: true, message: "Registration and login successful!" };
         } catch (error) {
             return { success: false, message: "API registration failed!" };
         }
     }
-}
+    
+    // Assuming you have a login method like this
+    async login(credentials) {
+        try {
+            // Logic to login the user, for example:
+            const loginApiResponse = await UserSource.login(credentials); // for login
+            return loginApiResponse; // return response if needed
+        } catch (error) {
+            throw new Error("Login failed");
+        }
+    }
+    
 
 }

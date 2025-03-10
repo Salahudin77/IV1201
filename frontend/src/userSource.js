@@ -31,33 +31,37 @@ const UserSource = {
         }
     },
     async login(userData) {
-        // Define the form data as a static object with new values
-      
         try {
-            // Send POST request to backend using fetch
             const response = await fetch('http://localhost:8080/api/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',  // Ensure the server knows we're sending JSON
+                    'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify(userData),  // Send the form data as JSON
+                body: JSON.stringify(userData),
             });
-
-            // Check if the response is successful (status code 200-299)
+    
             if (!response.ok) {
                 throw new Error('Failed to login');
             }
-
-            // Parse and return the response JSON
-            const data = await response.json();
-            return data;
-
+    
+            // Assuming the backend returns the role as plain text
+            const role = await response.text(); // Use response.text() to get the plain text
+    
+            if (role) {
+                // Store the role in localStorage
+                localStorage.setItem('userRole', role);
+            }
+            console.log(localStorage.getItem('userRole'))
+    
+            return { success: true, role }; // You can return the role if needed
         } catch (error) {
             console.error('login error:', error);
             return { success: false, message: 'login failed' };
         }
     },
+    
+    
     async logout() {
         try {
             // Send GET request to backend

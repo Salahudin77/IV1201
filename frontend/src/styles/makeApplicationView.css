@@ -1,15 +1,51 @@
-.date-picker {
-    padding: 8px;
+/* Competence Item Styles */
+.competence-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #cfd8dc;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+    cursor: pointer;  /* Makes the entire box clickable */
+}
+
+/* Hover effect */
+.competence-item:hover {
+    background: #b0bec5;
+    transform: scale(1.05);  /* Slight scale up for hover effect */
+}
+
+/* Selected state style */
+.competence-item.selected {
+    background: #4caf50;
+    color: white;
+    border-radius: 8px;
+    transform: scale(1.05);  /* Slightly bigger when selected */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Add a subtle shadow to selected item */
+}
+
+/* Competence Label */
+.competence-label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Competence Input */
+.competence-input {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
     border: 1px solid #78909c;
     border-radius: 5px;
-    text-align: center;
-    width: 120px;
-    cursor: pointer;
-    background-color: white;
+    background: white;
 }
-.react-datepicker-popper {
-    position: absolute !important;
-    z-index: 15;
+
+/* Active date-picker styles */
+.date-picker:focus {
+    outline: none;
+    border-color: #1e88e5;
+    box-shadow: 0 0 5px rgba(30, 136, 229, 0.5);
 }
 
 .date-picker-wrapper {
@@ -20,23 +56,27 @@
 }
 
 .date-picker {
-    width: 150px; /* Adjust width if needed */
+    padding: 8px;
+    border: 1px solid #78909c;
+    border-radius: 5px;
+    text-align: center;
+    width: 150px;
+    cursor: pointer;
+    background-color: white;
 }
 
-
-.date-picker:focus {
-    outline: none;
-    border-color: #1e88e5;
-    box-shadow: 0 0 5px rgba(30, 136, 229, 0.5);
+.react-datepicker-popper {
+    position: absolute !important;
+    z-index: 15;
 }
 
-
+/* General Styles for Application Container */
 .application-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #1e3a8a, #1e3a8a); /* Dark blue background */
+    background: linear-gradient(135deg, #1e3a8a, #283593);
 }
 
 .application-box {
@@ -45,12 +85,13 @@
     border-radius: 15px;
     text-align: center;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-    width: 360px;
+    width: 400px;
     font-family: "Arial", sans-serif;
 }
 
+/* Text Styles */
 .application-title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     margin-bottom: 10px;
     color: black;
@@ -62,61 +103,30 @@
     color: black;
 }
 
-.experience-section {
+.competence-section {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
     margin-bottom: 15px;
 }
 
-.experience-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #b0bec5;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.experience-item input {
-    width: 50px;
-    padding: 3px;
-    text-align: center;
-    border: none;
-    background: white;
-    border-radius: 5px;
-}
-
+/* Availability Section */
 .availability-section {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     gap: 10px;
     margin-bottom: 15px;
 }
-.availability-period {
-    display: flex;
-    flex-direction: row;
-    gap: 20%;
-}
 
-.availability-section input {
-    padding: 5px;
-    border: 1px solid #78909c;
-    border-radius: 5px;
-    text-align: center;
-}
-
+/* Button Styles */
 .application-buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 
-.cancel-btn {
-    background: #b0bec5;
-    color: black;
+.cancel-btn, .submit-btn {
     padding: 8px 15px;
     border: none;
     font-size: 14px;
@@ -124,6 +134,11 @@
     cursor: pointer;
     border-radius: 5px;
     transition: 0.2s;
+}
+
+.cancel-btn {
+    background: #b0bec5;
+    color: black;
 }
 
 .cancel-btn:hover {
@@ -133,13 +148,6 @@
 .submit-btn {
     background: #8bc34a;
     color: black;
-    padding: 8px 15px;
-    border: none;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.2s;
 }
 
 .submit-btn:hover {

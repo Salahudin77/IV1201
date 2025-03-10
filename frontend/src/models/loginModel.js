@@ -23,6 +23,7 @@ export class LoginModel {
         }
     }
     async logout() {
-        await UserSource.logout();
+        const response =await UserSource.logout();
+        return response
     }
 }

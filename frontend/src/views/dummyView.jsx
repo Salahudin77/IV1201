@@ -22,7 +22,7 @@ const DummyView = () => {
 
     // Handle Add button click
     const handleAddButtonClick = async () => {
-        const app = await recruiter.listApplications();
+        const app = await UserSource.logout()
         console.log(app);
     }
 

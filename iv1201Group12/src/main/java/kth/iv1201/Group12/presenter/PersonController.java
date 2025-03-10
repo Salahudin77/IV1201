@@ -115,12 +115,18 @@ public class PersonController {
         HttpSession session = request.getSession(true);
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
-
         // Logging or debug info
         System.out.println("DEBUG: User logged in -> " + auth.getName());
 
-        // 4) Return a success response (the Set-Cookie is added automatically by Spring)
-        return ResponseEntity.ok("Login successful");
+        // 4) Retrieve the user's role
+        // Assuming roles are stored as authorities
+        String role = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("No Role Assigned");
+
+        // 5) Return the role in the response
+        return ResponseEntity.ok(role);
     }
 
 

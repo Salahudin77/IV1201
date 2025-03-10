@@ -1,3 +1,5 @@
+// Inside MakeApplicationView component
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -6,20 +8,22 @@ import { MakeApplicationPresenter } from "../presenters/makeApplicationPresenter
 import "../styles/makeApplicationView.css";
 import Header from "./header.jsx";
 
+const competencies = [
+    { id: 1, name: "Ticket sales" },
+    { id: 2, name: "Lotteries" },
+    { id: 3, name: "Roller coaster operation" }
+];
+
 const MakeApplicationView = () => {
     const handleLogout = () => {
-        // Clear user data (e.g., from local storage)
         localStorage.removeItem("userToken");
-        window.location.href = "/login"; // Redirect to login
+        window.location.href = "/login";
     };
 
     const [applicationData, setApplicationData] = useState({
-        experiences: [
-            { competenceId: 1, yearsOfExperience: 0.0 },
-            { competenceId: 2, yearsOfExperience: 0.0 },
-            { competenceId: 3, yearsOfExperience: 0.0 }
-        ],
-        availability: []
+        experiences: [],
+        availability: [],
+        competencies: competencies.map(comp => ({ ...comp, selected: false })) // Initializing competencies with a 'selected' state
     });
 
     const navigate = useNavigate();
@@ -31,6 +35,14 @@ const MakeApplicationView = () => {
 
     const presenter = presenterRef.current;
 
+    const toggleCompetence = (competenceId) => {
+        presenter.toggleCompetence(competenceId);
+    };
+
+    const addAvailability = () => {
+        presenter.addAvailabilityPeriod();
+    };
+
     return (
         <>
             <Header onLogout={handleLogout} />
@@ -38,27 +50,33 @@ const MakeApplicationView = () => {
                 <div className="application-box">
                     <h2 className="application-title">Apply for a position</h2>
                     <p className="application-text">
-                        Please provide your previous work experiences <br />
-                        (If any) Answer in years, leave blank if none.
+                        Please select your competencies and provide your years of experience.
                     </p>
 
-                    <div className="experience-section">
-                        {applicationData.experiences.map((exp, index) => (
-                            <div key={exp.competenceId} className="experience-item">
-                                <label>{exp.competenceId === 1 ? "Ticket sales" : exp.competenceId === 2 ? "Lotteries" : "Roller coaster operation"}</label>
+                    <div className="competence-section">
+                        {competencies.map((competence) => (
+                            <div key={competence.id} className="competence-item">
+                                <label className="competence-label" htmlFor={`competence-${competence.id}`}>{competence.name}</label>
                                 <input
-                                    type="number"
-                                    name={`experience-${exp.competenceId}`}
-                                    step="0.01"
-                                    value={exp.yearsOfExperience}
-                                    onChange={(e) => presenter.handleExperienceChange(exp.competenceId, e.target.value)}
+                                    type="checkbox"
+                                    id={`competence-${competence.id}`}
+                                    checked={applicationData.competencies.find(comp => comp.id === competence.id)?.selected || false}
+                                    onChange={() => toggleCompetence(competence.id)} // Issue could arise here if the ID is not consistent
                                 />
+                                {applicationData.competencies.find(comp => comp.id === competence.id)?.selected && (
+                                    <input
+                                        type="number"
+                                        className="competence-input"
+                                        name={`experience-${competence.id}`}
+                                        step="0.01"
+                                        onChange={(e) => presenter.handleExperienceChange(competence.id, e.target.value)}
+                                    />
+                                )}
                             </div>
                         ))}
                     </div>
 
                     <p className="application-text">Please provide your availability periods.</p>
-
                     <div className="availability-section">
                         {applicationData.availability.map((period, index) => (
                             <div key={index} className="date-picker-wrapper">
@@ -72,7 +90,6 @@ const MakeApplicationView = () => {
                                     minDate={new Date()}
                                     maxDate={period.to}
                                 />
-
                                 <DatePicker
                                     selected={period.to}
                                     onChange={(date) => presenter.handleAvailabilityChange(index, "to", date)}
@@ -85,9 +102,7 @@ const MakeApplicationView = () => {
                             </div>
                         ))}
                     </div>
-                    <button className="add-btn" onClick={presenter.addAvailabilityPeriod}>
-                        + Add Availability
-                    </button>
+                    <button className="add-btn" onClick={addAvailability}>+ Add Availability</button>
 
                     <div className="application-buttons">
                         <button className="cancel-btn" onClick={() => navigate("/appLogin")}>

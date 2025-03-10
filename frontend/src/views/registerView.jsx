@@ -69,14 +69,20 @@ const RegisterView = () => {
         return null;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const error = validateInput();
         if (error) {
             setMessages({ successMessage: null, errorMessage: error });
             return;
         }
-        presenter.handleRegister(registerData);
+        await presenter.handleRegister(registerData);
+        window.location.reload();
+        window.location.href = "/recLogin";
+
+       
+        
+
     };
 
     return (

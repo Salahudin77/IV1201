@@ -1,5 +1,6 @@
 import { RegisterModel } from "../models/registerModel";
 
+
 export class RegisterPresenter {
     constructor(updateView) {
         this.model = new RegisterModel();
@@ -16,4 +17,5 @@ export class RegisterPresenter {
             this.updateView({ successMessage: null, errorMessage: error.message });
         }
     }
+
 }

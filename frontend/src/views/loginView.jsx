@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginPresenter } from "../presenters/loginPresenter";
 import "../styles/login.css";
@@ -13,6 +13,17 @@ const LoginView = () => {
         setMessage(update.message);
         setIsError(update.isError); // Set error state
     });
+
+    // Check if the user is already logged in (by checking the role in localStorage)
+    useEffect(() => {
+        const userRole = localStorage.getItem("userRole");
+
+        if (userRole === "ROLE_APPLICANT") {
+            navigate("/appLogin"); // Redirect if already logged in as an applicant
+        } else if (userRole === "ROLE_RECRUITER") {
+            navigate("/recLogin"); // Redirect if already logged in as a recruiter
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -31,7 +42,7 @@ const LoginView = () => {
         return null;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const error = validateInput();
         if (error) {
@@ -39,7 +50,25 @@ const LoginView = () => {
             setIsError(true);
             return;
         }
-        presenter.handleLogin(credentials);
+
+        const loginResponse = await presenter.handleLogin(credentials);  // Assume this returns a response
+
+        if (loginResponse.success) {
+            // After a successful login, check the role stored in localStorage
+            const userRole = localStorage.getItem("userRole");
+
+            if (userRole === "ROLE_APPLICANT") {
+                navigate("/appLogin");  // Redirect to applicant view
+            } else if (userRole === "ROLE_RECRUITER") {
+                navigate("/recLogin");  // Redirect to recruiter view
+            } else {
+                setMessage("Unknown role");
+                setIsError(true);
+            }
+        } else {
+            setMessage(loginResponse.message || "Login failed");
+            setIsError(true);
+        }
     };
 
     return (
