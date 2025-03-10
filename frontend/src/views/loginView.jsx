@@ -1,44 +1,53 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { LoginPresenter } from "../presenters/loginPresenter";
 import "../styles/login.css";
 import { useTranslation } from "react-i18next";
+import Header from "./header";
+
 
 const LoginView = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
     const [message, setMessage] = useState(null);
     const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const { t, i18n } = useTranslation();
+    const presenterRef = useRef(null);
 
-    const presenter = new LoginPresenter((update) => {
-        setMessage(update.message);
-        setIsError(update.isError); // Set error state
-    });
-
-    // Check if the user is already logged in (by checking the role in localStorage)
     useEffect(() => {
-        const userRole = localStorage.getItem("userRole");
+        presenterRef.current = new LoginPresenter((update) => {
+            setMessage(update.message);
+            setIsError(update.isError);
+        });
 
+        const userRole = localStorage.getItem("userRole");
         if (userRole === "ROLE_APPLICANT") {
-            navigate("/appLogin"); // Redirect if already logged in as an applicant
+            navigate("/appLogin");
         } else if (userRole === "ROLE_RECRUITER") {
-            navigate("/recLogin"); // Redirect if already logged in as a recruiter
+            navigate("/recLogin");
         }
-    }, [navigate]);
+
+        const searchParams = new URLSearchParams(location.search);
+        const langParam = searchParams.get("lng");
+        if (langParam && langParam !== i18n.language) {
+            i18n.changeLanguage(langParam);
+        }
+    }, [navigate, location.search, i18n]);
 
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
-        setMessage(null); // Reset message when user types
+        setMessage(null);
     };
 
     const validateInput = () => {
         const { username, password } = credentials;
 
         if (username.length < 4) {
-            return "Username must be at least 4 characters long.";
+            return t("usernameError");
         }
         if (!/(?=.*[A-Za-z])(?=.*\d).{8,}/.test(password)) {
-            return "Password must be at least 8 characters long and include at least one letter and one number.";
+            return t("passwordError");
         }
         return null;
     };
@@ -52,16 +61,13 @@ const LoginView = () => {
             return;
         }
 
-        const loginResponse = await presenter.handleLogin(credentials);  // Assume this returns a response
-
+        const loginResponse = await presenterRef.current.handleLogin(credentials);
         if (loginResponse.success) {
-            // After a successful login, check the role stored in localStorage
             const userRole = localStorage.getItem("userRole");
-
             if (userRole === "ROLE_APPLICANT") {
-                navigate("/appLogin");  // Redirect to applicant view
+                navigate("/appLogin");
             } else if (userRole === "ROLE_RECRUITER") {
-                navigate("/recLogin");  // Redirect to recruiter view
+                navigate("/recLogin");
             } else {
                 setMessage("Unknown role");
                 setIsError(true);
@@ -73,41 +79,47 @@ const LoginView = () => {
     };
 
     return (
-        <div className="container">
-            <h2>Login</h2>
+        <>
+            <Header />
+            <div className="container">
+                <h2>{t("login")}</h2>
 
-            {message && (
-                <p className={isError ? "error-message" : "success-message"}>
-                    {message}
+                {message && (
+                    <p className={isError ? "error-message" : "success-message"}>
+                        {message}
+                    </p>
+                )}
+
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder={t("username")}
+                        onChange={handleChange}
+                        value={credentials.username}
+                        required
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder={t("password")}
+                        onChange={handleChange}
+                        value={credentials.password}
+                        required
+                    />
+                    <button type="submit">{t("login")}</button>
+                </form>
+
+                <p className="forgot-password">{t("FORGOT_PASSWORD")}</p>
+
+                <p className="signup-text">
+                    {t("needAccount")}{" "}
+                    <span className="signup-link" onClick={() => navigate("/register")}>
+                        {t("signUp")}
+                    </span>
                 </p>
-            )}
-
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    onChange={handleChange}
-                    value={credentials.username}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                    value={credentials.password}
-                    required
-                />
-                <button type="submit">LOGIN</button>
-            </form>
-
-            <p className="forgot-password">Forgot password?</p>
-
-            <p className="signup-text">
-                Need an account? <span className="signup-link" onClick={() => navigate("/register")}>SIGN UP</span>
-            </p>
-        </div>
+            </div>
+        </>
     );
 };
 

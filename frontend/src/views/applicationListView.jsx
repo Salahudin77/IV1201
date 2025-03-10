@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useApplicationListPresenter } from "../presenters/applicationListPresenter";
 import { Header } from "./header.jsx";
 import "../styles/applicationList.css";
+import { useTranslation } from "react-i18next";
 
 export const ApplicationListView = () => {
     const navigate = useNavigate();
     const { applications, isLoading, error, fetchApplications } = useApplicationListPresenter();
-
+    const { t } = useTranslation();
     const handleLogout = () => {
         localStorage.removeItem("authToken");  // Adjust based on your auth implementation
         navigate("/login");
@@ -17,9 +18,9 @@ export const ApplicationListView = () => {
             <Header onLogout={handleLogout} />
             <div className="page-container">
                 <div className="container">
-                    <button className="back-link" onClick={() => navigate(-1)}>Back to previous screen</button>
+                    <button className="back-link" onClick={() => navigate(-1)}>{t('backToPreviousScreen')}</button>
 
-                    <h1>Please find all applications below:</h1>
+                    <h1>{t('applicationsHeading')}</h1>
 
                     {error && (
                         <div className="error-message">
@@ -28,28 +29,28 @@ export const ApplicationListView = () => {
                     )}
 
                     <button onClick={fetchApplications} className="fetch-button">
-                        Fetch Applications
+                        {t('fetchApplications')}
                     </button>
 
                     {isLoading ? (
-                        <div className="loading-indicator">Loading applications...</div>
+                        <div className="loading-indicator">{t('loadingApplications')}</div>
                     ) : (
                         <div className="table-container">
                             <div className="table-header">
-                                <div className="header-cell">Full Name</div>
-                                <div className="header-cell">Status</div>
+                                <div className="header-cell">{t('fullName')}</div>
+                                <div className="header-cell">status</div>
                             </div>
 
                             <div className="table-content">
                                 {applications.length > 0 ? (
                                     applications.map((app, index) => (
                                         <div className="table-row" key={app.id || index}>
-                                            <div className="cell">{app.firstName + " " + app.lastName || 'Unknown'}</div>
-                                            <div className="cell">{app.status || 'Pending'}</div>
+                                            <div className="cell">{app.firstName + " " + app.lastName || t('unknown')}</div>
+                                            <div className="cell">{t("unhandled")|| t('pending')}</div>
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="empty-message">No applications found</div>
+                                    <div className="empty-message">{t('noApplicationsFound')}</div>
                                 )}
                             </div>
                         </div>

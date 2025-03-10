@@ -9,7 +9,11 @@ export class LoginPresenter {
     async handleLogin(userData) {
         try {
             const response = await this.model.login(userData);
+          console.log(response)
+            
+          if(response.success){
             window.location.reload();
+          }
             this.updateView({ successMessage: response.message, errorMessage: null });
 
             return response;

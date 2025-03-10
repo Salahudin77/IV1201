@@ -2,34 +2,30 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/pastLogin.css";
 import { Header } from "./header.jsx";
-
-
+import { useTranslation } from "react-i18next";
 
 export const LoggedInApplicantView = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
+    
     const handleLogout = () => {
-        // Clear any authentication tokens or session data
-        localStorage.removeItem("authToken"); // Adjust based on your auth implementation
-
-        // Redirect to login page
+        localStorage.removeItem("authToken");
         navigate("/login");
     };
-
 
     return (
         <>
         <Header onLogout={handleLogout}/>
         <div className="applicant-container">
             <div className="applicant-box">
-                <h2 className="applicant-title">Welcome dear applicant!</h2>
+                <h2 className="applicant-title">{t("applicantContainerTitle")}</h2>
                 <p className="applicant-text">
-                    Do you feel ready to apply for your new summer job? <br />
-                    Please press “apply” below.
+                    {t("applicantContainerText")} <br />
                 </p>
                 <div className="applicant-buttons">
-                    <button className="apply-btn" onClick={() => navigate("/applicationForm")}>Apply</button>
-                    <span className="applicant-or">Or</span>
-                    <button className="logout-btn" onClick={() => navigate("/login")}>Log out</button>
+                    <button className="apply-btn" onClick={() => navigate("/applicationForm")}>{t("applicantApplyButton")}</button>
+                    <span className="applicant-or">{t("TXT_OR ")}</span>
+                    <button className="logout-btn" onClick={() => navigate("/login")}>{t("LogOut")}</button>
                 </div>
             </div>
         </div>
