@@ -11,6 +11,7 @@ export class MakeApplicationModel {
             ],
             availability: [] // Store availability periods
         };
+        
     }
 
     // Set experience for a specific competenceId
@@ -95,51 +96,38 @@ export class MakeApplicationModel {
 
     // Submit the application (placeholder for actual submission logic)
     async submitApplication() {
+        this.responses = [];
+
         if (this.applicationData.availability.length === 0) {
-            console.warn("No availability periods added.");
             return { success: false, message: "Please add at least one availability period." };
         }
 
-        // Check for incomplete periods
-        const incomplete = this.applicationData.availability.some(
-            period => period.from === null || period.to === null
-        );
-
-        if (incomplete) {
-            console.warn("Incomplete availability period detected.");
+        if (this.applicationData.availability.some(period => !period.from || !period.to)) {
             return { success: false, message: "Please complete all availability periods." };
         }
 
         try {
-            console.log("Submitting expertise entries...");
-            // Submit only the selected competencies
             for (const expertise of this.applicationData.competencies) {
                 if (expertise.selected) {
-                    // Create a new object with only competenceId and yearsOfExperience
-                    const selectedExpertise = {
-                        competenceId: expertise.id, // Use `id` here
+                    const response = await applySource.competence({
+                        competenceId: expertise.id,
                         yearsOfExperience: expertise.yearsOfExperience
-                    };
-
-                    // Log the new object
-                    await applySource.competence(selectedExpertise)
+                    });
+                    this.responses.push(response);
+                    console.log(response)
                 }
             }
 
-            console.log("Submitting availability periods...");
             for (const date of this.applicationData.availability) {
-                if (date.from !== null && date.to !== null) {
-                    await applySource.availability(date)
-                }
-
-              
+                const response = await applySource.availability(date);
+                this.responses.push(response);
+                console.log(response)
             }
-
-            console.log("Application successfully submitted.");
-            return { success: true, message: "Application submitted successfully!", resetData: this.applicationData };
-
+            const allSucceeded = this.responses.every(res => res.success);
+            return allSucceeded
+                ? { success: true, message: "Application submitted successfully!" }
+                : { success: false, message: "Failed to submit application", responses: this.responses };
         } catch (error) {
-            console.error("Error submitting application:", error);
             return { success: false, message: "An error occurred while submitting the application." };
         }
     }

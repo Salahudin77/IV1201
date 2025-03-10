@@ -51,8 +51,8 @@ except TimeoutException:
 # Test 2: Submit a weak password (does not meet criteria)
 username_field.clear()
 password_field.clear()
-username_field.send_keys("validUser")
-password_field.send_keys("password")  # No number
+username_field.send_keys("ABCDEFG")
+password_field.send_keys("Jwn3u2nc")  # No number
 login_button.click()
 
 try:

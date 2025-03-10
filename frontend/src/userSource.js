@@ -3,33 +3,38 @@
 
 const UserSource = {
     async createAccount(userData) {
-        // Define the form data as a static object with new values
-      console.log(userData)
+        console.log(userData);
         try {
-            // Send POST request to backend using fetch
             const response = await fetch('http://localhost:8080/api/register', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',  // Ensure the server knows we're sending JSON
+                    'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify(userData),  // Send the form data as JSON
+                body: JSON.stringify(userData),
             });
-
-            // Check if the response is successful (status code 200-299)
+           
+    
             if (!response.ok) {
-                throw new Error('Failed to register');
+                // Try to extract error message from response
+                const text = await response.text();
+                console.log('Error response text:', text);  // Log the error response
+                throw new Error(text || 'Failed to register');
             }
-
-            // Parse and return the response JSON
-            const data = await response.json();
-            return data;
-
+    
+            
+         
+            
+    
+            
+            return { success: true, message: 'Registration succeded' }
         } catch (error) {
             console.error('Registration error:', error);
-            return { success: false, message: 'Registration failed' };
+            return { success: false, message: error.message || 'Registration failed' };
         }
-    },
+    }
+    
+    ,
     async login(userData) {
         try {
             const response = await fetch('http://localhost:8080/api/login', {

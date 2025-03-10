@@ -64,9 +64,12 @@ button:hover {
 }
 
 .success-message {
-    color: green;
+    color: red;
     font-size: 14px;
     margin-bottom: 10px;
+}
+.fail-message{
+
 }
 /* Back to login button */
 .back-to-login {

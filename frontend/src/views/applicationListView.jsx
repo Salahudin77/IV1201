@@ -9,7 +9,7 @@ export const ApplicationListView = () => {
     const { applications, isLoading, error, fetchApplications } = useApplicationListPresenter();
     const { t } = useTranslation();
     const handleLogout = () => {
-        localStorage.removeItem("authToken");  // Adjust based on your auth implementation
+        //localStorage.removeItem("authToken");  // Adjust based on your auth implementation
         navigate("/login");
     };
 
@@ -46,7 +46,7 @@ export const ApplicationListView = () => {
                                     applications.map((app, index) => (
                                         <div className="table-row" key={app.id || index}>
                                             <div className="cell">{app.firstName + " " + app.lastName || t('unknown')}</div>
-                                            <div className="cell">{t("unhandled")|| t('pending')}</div>
+                                            <div className="cell">{t("unhandled") || t('pending')}</div>
                                         </div>
                                     ))
                                 ) : (

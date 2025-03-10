@@ -1,47 +1,57 @@
 const applySource = {
     async competence(expertise) {
         try {
-            // Send POST request to backend using fetch
             const response = await fetch('http://localhost:8080/api/addCompetence', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',  // Ensure the server knows we're sending JSON
-                },
+                headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify(expertise),  // Send the form data as JSON
+                body: JSON.stringify(expertise),
             });
-
-            // Check if the response is successful (status code 200-299)
+    
             if (!response.ok) {
-                throw new Error(`Failed to add competence: ${response.status} ${response.statusText}`);
+                const text = await response.text();
+                throw new Error(`Failed to add competence: ${response.status} ${text}`);
             }
-
-            // Parse and return the response JSON
-            return await response.json();
-
+    
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                return await response.json();
+            } else {
+                const text = await response.text(); // Read response as text
+                return { success: true, message: text }; // Treat as success but return the text
+            }
+    
         } catch (error) {
             console.error('Error adding competence:', error);
             return { success: false, message: error.message || 'Failed to add competence' };
         }
     },
+    
 
     async availability(dates) {
         try {
-            // Send POST request to backend using fetch
             const response = await fetch("http://localhost:8080/api/availability", {
                 method: "POST",
-                credentials: "include",   // This is crucial for cross-site or if you want cookies
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dates)
             });
 
-            // Check if the response is successful (status code 200-299)
+
             if (!response.ok) {
-                throw new Error(`Failed to update availability: ${response.status} ${response.statusText}`);
+                const text = await response.text();
+                throw new Error(`Failed to add competence: ${response.status} ${text}`);
+            }
+    
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                return await response.json();
+            } else {
+                const text = await response.text(); // Read response as text
+                return { success: true, message: text }; // Treat as success but return the text
             }
 
-            // Parse and return the response JSON
-            return await response.json();
+           
 
         } catch (error) {
             console.error('Error updating availability:', error);

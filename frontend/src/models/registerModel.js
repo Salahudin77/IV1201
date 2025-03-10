@@ -13,11 +13,15 @@ export class RegisterModel {
         try {
             // Attempt to create a new account
             const apiResponse = await UserSource.createAccount(userData); // for register
+            console.log(apiResponse)
     
             // If registration is successful, automatically log the user in
-            const loginResponse = await this.login(credentials); // Call login with the new credentials
+            if(apiResponse.success){
+                const loginResponse = await this.login(credentials); // Call login with the new credentials
+            }
+            
     
-            return { success: true, message: "Registration and login successful!" };
+            return apiResponse
         } catch (error) {
             return { success: false, message: "API registration failed!" };
         }

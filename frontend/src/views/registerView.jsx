@@ -5,7 +5,6 @@ import { RegisterPresenter } from "../presenters/registerPresenter";
 import { useTranslation } from "react-i18next";
 import Header from "./header";
 
-
 const RegisterView = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -27,9 +26,11 @@ const RegisterView = () => {
 
     const updateView = (newMessages) => {
         setMessages(newMessages);
-        setTimeout(() => {
-            setMessages({ successMessage: null, errorMessage: null });
-        }, 3000);
+        if (newMessages.errorMessage) {
+            setTimeout(() => {
+                setMessages((prevMessages) => ({ ...prevMessages, errorMessage: null }));
+            }, 3000);
+        }
     };
 
     const presenter = new RegisterPresenter(updateView);
@@ -69,9 +70,16 @@ const RegisterView = () => {
             setMessages({ successMessage: null, errorMessage: error });
             return;
         }
-        await presenter.handleRegister(registerData);
-        window.location.reload();
-        window.location.href = "/recLogin";
+        
+        const response = await presenter.handleRegister(registerData);
+        
+        if (response.success) {
+            // Introduce a delay of 2 seconds (2000ms) before navigating and reloading
+            setTimeout(() => {
+                window.location.reload();
+                window.location.href = "/recLogin";
+            }, 2000); // 2000ms = 2 seconds delay
+        }
     };
 
     return (
@@ -133,8 +141,12 @@ const RegisterView = () => {
                     />
                     <button type="submit">{t("createAccount")}</button>
                 </form>
-                {messages.successMessage && <div className="success-message">{messages.successMessage}</div>}
-                {messages.errorMessage && <div className="error-message">{messages.errorMessage}</div>}
+                {messages.errorMessage && (
+                    <p className="error-message" style={{ color: "red" }}>{messages.errorMessage}</p>
+                )}
+                {messages.successMessage && (
+                    <p className="success-message">{messages.successMessage}</p>
+                )}
             </div>
         </>
     );

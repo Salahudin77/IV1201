@@ -67,6 +67,9 @@ export class MakeApplicationPresenter {
     async  submitApplication() {
       
          const result = await this.model.submitApplication();
+         console.log(result)
+        
+         console.log("HI")
 
         if (result.success) {
             alert(result.message);

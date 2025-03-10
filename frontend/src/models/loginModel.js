@@ -10,13 +10,13 @@ export class LoginModel {
             
             
             const apiResponse = await UserSource.login(credentials);
-           
+           console.log(apiResponse)
 
             if (apiResponse.success) {
                 
-                return { success: true, user: this.user };
+                return { success: true, message: "Logged In" };
             } else {
-                return { success: false, message: "Invalid credentials" };
+                return { success: false, message: "Login Failed" };
             }
         } catch (error) {
             return { success: false, message: "Login failed" };
