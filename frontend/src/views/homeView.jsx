@@ -9,7 +9,7 @@ const HomeView = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("authToken");  // Adjust based on your auth implementation
+        
         navigate("/login");
     };
 

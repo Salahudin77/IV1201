@@ -9,7 +9,7 @@ export const LoggedInApplicantView = () => {
     const navigate = useNavigate();
     
     const handleLogout = () => {
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("userRole");
         navigate("/login");
     };
 

@@ -50,7 +50,7 @@ export const Header = ({ onLogout }) => {
             const presenter = presenterRef.current;
             const response = await presenter.handleLogout();
 
-            if (response.success) {
+            if (true) {
                 localStorage.removeItem("userRole");
                 setIsLoggedIn(false);
                 window.location.href = "/home";

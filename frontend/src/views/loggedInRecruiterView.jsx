@@ -10,7 +10,7 @@ const LoggedInRecruiterView = () => {
 
     const handleLogout = () => {
         // Clear any authentication tokens or session data
-        localStorage.removeItem("authToken"); // Adjust based on your auth implementation
+        localStorage.removeItem("userRole"); // Adjust based on your auth implementation
 
         // Redirect to login page
         navigate("/login");
