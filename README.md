@@ -1,125 +1,126 @@
-IV1201 - Recruitment Application
+# IV1201 - Recruitment Application
 
-This is a recruitment application developed using Spring Boot for the course IV1201. The platform allows users to register, log in, and submit job applications, while recruiters can review and manage applications.
+This recruitment application is developed using **Spring Boot** and **React** as part of the course IV1201. It allows job seekers to register, log in, and submit job applications, while recruiters can review and manage these applications.
 
-Features
+## Features
 
-User Registration & Login - Secure authentication for job seekers and recruiters.
+- **User Registration & Login:** Secure authentication for both applicants and recruiters.
+- **Job Application Management:** Applicants can submit, edit, and track applications.
+- **Recruiter Interface:** Recruiters can review, accept, or reject applications.
+- **Internationalization:** Multi-language support integrated through I18Nexus.
+- **Security:** Robust authentication and authorization using Spring Security.
+- **Automated Testing:** Comprehensive automated tests using JUnit, Selenium, and ViteTest.
 
-Create & Manage Job Applications - Applicants can submit and track applications.
+## Technologies & Tools
 
-Recruiter Interface - Recruiters can review, accept, or reject applications.
+| Component           | Technology             |
+|---------------------|------------------------|
+| **Backend**         | Spring Boot            |
+| **Frontend**        | React                  |
+| **Database**        | PostgreSQL             |
+| **Build Tool**      | Maven                  |
+| **Version Control** | Git                    |
+| **Testing**         | JUnit, Selenium, ViteTest |
+| **i18n**            | I18Nexus               |
 
-Internationalization - Multi-language support with I18Nexus.
+## Installation & Running Locally
 
-Secure Authorization - Implemented using Spring Security.
+### Prerequisites:
+- Java (JDK 17+)
+- Maven
+- PostgreSQL
 
-Automated Testing - Comprehensive testing with JUnit, Selenium, and ViteTest.
+### Steps to Run:
 
-Technologies & Tools
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Salahudin77/IV1201.git
+   ```
 
-Backend: Spring Boot
+2. **Navigate to the project directory:**
 
-Frontend: React
+   ```bash
+   cd IV1201/
+   ```
 
-Database: PostgreSQL
+3. **Setup Database:**
 
-Build Tool: Maven
+   Create a PostgreSQL database and update the configuration in:
+   ```
+   src/main/resources/application.properties
+   ```
 
-Version Control: Git
+4. **Build the project:**
 
-Testing: JUnit, Selenium, ViteTest
+   ```bash
+   mvn clean install
+   ```
 
-Internationalization: I18Nexus
+5. **Run the application:**
 
-Installation & Running Locally
+   ```bash
+   mvn spring-boot:run
+   ```
 
-Prerequisites:
+4. **Open in browser:**
 
-Java (JDK 17+)
+   [http://localhost:8080](http://localhost:8080)
 
-Maven
+## Code Structure
 
-PostgreSQL
+- **Controller:** Handles HTTP requests and responses.
+- **DTO (Data Transfer Objects):** Facilitates data transfer between client and server.
+- **Model:** Defines database entities and relationships.
+- **Service:** Implements business logic.
+- **Repository:** Database interaction layer.
+- **Security:** Configures authentication and authorization using Spring Security.
 
-Steps to Run:
+## Testing
 
-Clone the repository:
+- **Unit Tests:** Implemented with JUnit.
+- **Integration Tests:** Conducted using Selenium.
+- **Frontend Tests:** Managed through ViteTest for React components.
 
-git clone https://github.com/Salahudin77/IV1201.git
+## Internationalization
 
-Navigate to the project directory:
+The application supports multiple languages via I18Nexus. To update translations, modify language files in:
 
-cd IV1201/Recruitment
+```
+src/main/resources/i18n/
+```
 
-Create a PostgreSQL database and updatesrc/main/resources/application.properties with your database credentials.
+## Deployment
 
-Build the project:
+This application can be deployed to cloud platforms such as Heroku.
 
-mvn clean install
+### Deploying to Heroku:
 
-Start the application:
+1. **Build the project:**
 
-mvn spring-boot:run
+   ```bash
+   mvn clean install
+   ```
 
-Open in browser:
+2. **Create a Heroku app:**
 
-http://localhost:8080
+   ```bash
+   heroku create
+   ```
 
-Code Structure
+3. **Push the code to Heroku:**
 
-Controller - Handles HTTP requests and serves appropriate views.
+   ```bash
+   git push heroku main
+   ```
 
-DTO (Data Transfer Objects) - Manages structured data transfer between client and server.
+4. **Migrate the database:**
 
-Model - Defines database entities and their relationships.
+   ```bash
+   heroku run 'mvn flyway:migrate'
+   ```
 
-Service - Contains core business logic.
-
-Repository - Handles database operations.
-
-Security - Configures authentication and authorization with Spring Security.
-
-Testing
-
-Unit Tests - Implemented using JUnit for testing individual components.
-
-Integration Tests - Selenium is used for end-to-end application testing.
-
-Frontend Tests - ViteTest ensures correct behavior of React components.
-
-Internationalization
-
-The application supports multiple languages via I18Nexus. To modify translations, update the language files in:📁 src/main/resources/i18n/
-
-Deployment
-
-This application can be deployed on Heroku or other cloud platforms.
-
-Deploying to Heroku:
-
-Build the project:
-
-mvn clean install
-
-Create a Heroku app:
-
-heroku create
-
-Push the code to Heroku:
-
-git push heroku main
-
-Migrate the database:
-
-heroku run 'mvn flyway:migrate'
-
-Contributors
-
-Marvin Haidar
-
-Salahudin Abdi Salah
-
-Abdurahman Ahmed
-
+## Contributors
+- **Marvin Haidar**
+- **Salahudin Abdi Salah**
+- **Abdurahman Ahmed**
 
