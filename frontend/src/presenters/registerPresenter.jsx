@@ -13,6 +13,7 @@ export class RegisterPresenter {
             
 
             this.updateView({ successMessage: response.message, errorMessage: null });
+            console.log(response.message)
             return response
         } catch (error) {
             this.updateView({ successMessage: null, errorMessage: error.message });

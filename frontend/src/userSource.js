@@ -3,7 +3,8 @@
 
 const UserSource = {
     async createAccount(userData) {
-        console.log(userData);
+        console.log("Sending request to backend...", userData);
+        
         try {
             const response = await fetch('http://localhost:8080/api/register', {
                 method: 'POST',
@@ -13,26 +14,22 @@ const UserSource = {
                 credentials: 'include',
                 body: JSON.stringify(userData),
             });
-           
     
+            // If the response is not ok, handle the error.
             if (!response.ok) {
-                // Try to extract error message from response
                 const text = await response.text();
-                console.log('Error response text:', text);  // Log the error response
+                console.log('Error response text:', text);
                 throw new Error(text || 'Failed to register');
             }
     
-            
-         
-            
-    
-            
-            return { success: true, message: 'Registration succeded' }
+            return { success: true, message: 'Registration succeeded' };
         } catch (error) {
+            // Modify the error message here if fetch fails
             console.error('Registration error:', error);
-            return { success: false, message: error.message || 'Registration failed' };
+            return { success: false, message: 'Failed to register' };
         }
     }
+    
     
     ,
     async login(userData) {

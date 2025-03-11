@@ -107,7 +107,7 @@ const LoginView = () => {
                         value={credentials.password}
                         required
                     />
-                    <button type="submit">{t("login")}</button>
+                    <button className="login-button" type="submit" data-testid="login-button">login</button>
                 </form>
 
                 <p className="forgot-password">{t("FORGOT_PASSWORD")}</p>
