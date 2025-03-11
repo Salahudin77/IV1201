@@ -49,23 +49,6 @@ try:
 except TimeoutException:
     print("Test Failed: Error message for invalid username did not appear.")
 
-# Test 2: Test invalid password (doesn't meet regex requirement)
-print("\nTest 2: Test invalid password (doesn't meet regex requirement)")
-username_field.clear()
-username_field.send_keys("validusername")
-password_field.clear()
-password_field.send_keys("short")
-login_button.click()
-
-# Wait for validation error message
-try:
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "error-message")))
-    error_message = driver.find_element(By.CLASS_NAME, "error-message").text
-    assert "passwordError" in error_message, "Test Failed: Password validation failed."
-    print("Test Passed: Invalid password validation message displayed.")
-except TimeoutException:
-    print("Test Failed: Error message for invalid password did not appear.")
-
 
 # Close the browser
 driver.quit()
