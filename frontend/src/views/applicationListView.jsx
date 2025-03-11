@@ -4,10 +4,24 @@ import { Header } from "./header.jsx";
 import "../styles/applicationList.css";
 import { useTranslation } from "react-i18next";
 
+/**
+ * ApplicationListView component displays a list of applications and provides functionalities
+ * like fetching applications, displaying error messages, and navigating to previous screens.
+ *
+ * @component
+ * @example
+ * return (
+ *   <ApplicationListView />
+ * )
+ */
 export const ApplicationListView = () => {
     const navigate = useNavigate();
     const { applications, isLoading, error, fetchApplications } = useApplicationListPresenter();
     const { t } = useTranslation();
+
+    /**
+     * Handles user logout by redirecting to the login page.
+     */
     const handleLogout = () => {
         //localStorage.removeItem("authToken");  // Adjust based on your auth implementation
         navigate("/login");
@@ -18,7 +32,9 @@ export const ApplicationListView = () => {
             <Header onLogout={handleLogout} />
             <div className="page-container">
                 <div className="container">
-                    <button className="back-link" onClick={() => navigate(-1)}>{t('backToPreviousScreen')}</button>
+                    <button className="back-link" onClick={() => navigate(-1)}>
+                        {t('backToPreviousScreen')}
+                    </button>
 
                     <h1>{t('applicationsHeading')}</h1>
 
@@ -38,7 +54,7 @@ export const ApplicationListView = () => {
                         <div className="table-container">
                             <div className="table-header">
                                 <div className="header-cell">{t('fullName')}</div>
-                                <div className="header-cell">status</div>
+                                <div className="header-cell">{t('status')}</div>
                             </div>
 
                             <div className="table-content">

@@ -7,19 +7,35 @@ import "../styles/makeApplicationView.css";
 import Header from "./header.jsx";
 import { useTranslation } from "react-i18next";
 
+// List of competencies available for the application form
 const competencies = [
     { id: 1, name: "competenceTicketSales" },
     { id: 2, name: "competenceLotteries" },
     { id: 3, name: "competenceRollerCoaster" }
 ];
 
+/**
+ * MakeApplicationView component provides a form for users to apply for a position,
+ * where they can select competencies, add availability periods, and submit the application.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <MakeApplicationView />
+ * )
+ */
 const MakeApplicationView = () => {
     const { t } = useTranslation();
+    
+    /**
+     * Handles user logout by removing the token from localStorage and redirecting to the login page.
+     */
     const handleLogout = () => {
         localStorage.removeItem("userToken");
         window.location.href = "/login";
     };
 
+    // State to manage application data: experiences, availability periods, and competencies selection
     const [applicationData, setApplicationData] = useState({
         experiences: [],
         availability: [],
@@ -27,16 +43,26 @@ const MakeApplicationView = () => {
     });
 
     const navigate = useNavigate();
+    
+    // Reference to the presenter for handling business logic
     const presenterRef = React.useRef(null);
     if (presenterRef.current === null) {
         presenterRef.current = new MakeApplicationPresenter(setApplicationData);
     }
     const presenter = presenterRef.current;
 
+    /**
+     * Toggles the selection state of a competence.
+     * 
+     * @param {number} competenceId - The id of the competence to toggle.
+     */
     const toggleCompetence = (competenceId) => {
         presenter.toggleCompetence(competenceId);
     };
 
+    /**
+     * Adds a new availability period to the application form.
+     */
     const addAvailability = () => {
         presenter.addAvailabilityPeriod();
     };

@@ -5,7 +5,16 @@ import "../styles/login.css";
 import { useTranslation } from "react-i18next";
 import Header from "./header";
 
-
+/**
+ * LoginView component renders a login form where users can enter their username and password.
+ * Handles input validation, login submission, and redirects based on user roles.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <LoginView />
+ * )
+ */
 const LoginView = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
     const [message, setMessage] = useState(null);
@@ -16,6 +25,11 @@ const LoginView = () => {
     const presenterRef = useRef(null);
 
     useEffect(() => {
+        /**
+         * Initializes the LoginPresenter and checks the user's role stored in localStorage.
+         * If the user is already logged in, it redirects them based on their role.
+         * Also, handles language switching if the language query parameter is provided in the URL.
+         */
         presenterRef.current = new LoginPresenter((update) => {
             setMessage(update.message);
             setIsError(update.isError);
@@ -35,11 +49,23 @@ const LoginView = () => {
         }
     }, [navigate, location.search, i18n]);
 
+    /**
+     * Handles input field changes by updating the credentials state.
+     * Resets the message state when the user starts typing.
+     * 
+     * @param {Event} e - The event triggered when the user types in an input field.
+     */
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
         setMessage(null);
     };
 
+    /**
+     * Validates the user input for login.
+     * Checks if the username is at least 4 characters long and if the password matches the required pattern.
+     * 
+     * @returns {string|null} - Returns an error message if validation fails, otherwise null.
+     */
     const validateInput = () => {
         const { username, password } = credentials;
 
@@ -52,6 +78,12 @@ const LoginView = () => {
         return null;
     };
 
+    /**
+     * Handles form submission, validates the input, and attempts login.
+     * If login is successful, the user is redirected based on their role.
+     * 
+     * @param {Event} e - The form submission event.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         const error = validateInput();

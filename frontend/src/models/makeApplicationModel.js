@@ -1,8 +1,17 @@
 import applySource from "../applySource";
 
-// Using toISOString to format the date
+/**
+ * MakeApplicationModel class responsible for managing the application process,
+ * including competencies, availability, and submission.
+ */
 export class MakeApplicationModel {
     constructor() {
+        /**
+         * Initial application data containing competencies and availability.
+         * @type {Object}
+         * @property {Array<Object>} competencies - List of competencies with experience and selection state.
+         * @property {Array<Object>} availability - List of availability periods.
+         */
         this.applicationData = {
             competencies: [
                 { id: 1, name: "Ticket sales", selected: false, yearsOfExperience: 0.0 },
@@ -11,41 +20,60 @@ export class MakeApplicationModel {
             ],
             availability: [] // Store availability periods
         };
-        
     }
 
-    // Set experience for a specific competenceId
+    /**
+     * Set experience for a specific competence.
+     * 
+     * @param {number} competenceId - The ID of the competence to update.
+     * @param {string|number} value - The number of years of experience to set.
+     * @returns {Object} - A response object indicating success or failure.
+     */
     setExperience(competenceId, value) {
-        console.log(this.applicationData)
+        console.log(this.applicationData);
         const numericValue = parseFloat(value);
         if (numericValue < 0) {
             return { success: false, message: "Invalid input: Must be a valid non-negative number." };
         }
         // Update the corresponding experience based on competenceId
-        const experience = this.applicationData.competencies.find(exp => exp.id === competenceId); // Fix here: change `competenceId` to `id`
+        const experience = this.applicationData.competencies.find(exp => exp.id === competenceId);
         if (experience) {
             experience.yearsOfExperience = numericValue;
         }
         return { success: true, value: numericValue };
     }
 
-    // Toggle the competence selected state
+    /**
+     * Toggle the competence selected state (select or deselect).
+     * 
+     * @param {number} competenceId - The ID of the competence to toggle.
+     * @returns {Object} - A response object indicating success.
+     */
     toggleCompetence(competenceId) {
-        const competence = this.applicationData.competencies.find(comp => comp.id === competenceId); // Fix here: change `competenceId` to `id`
+        const competence = this.applicationData.competencies.find(comp => comp.id === competenceId);
         if (competence) {
             competence.selected = !competence.selected;
         }
         return { success: true };
     }
 
-    // Add a new availability period
+    /**
+     * Add a new availability period to the application.
+     * 
+     * @returns {Array<Object>} - A copy of the updated availability list.
+     */
     addAvailabilityPeriod() {
         const newAvailability = { from: null, to: null };
         this.applicationData.availability.push(newAvailability);
-        return [...this.applicationData.availability]; // Return a copy of the array
+        return [...this.applicationData.availability];
     }
 
-    // Utility function to format date to YYYY-MM-DD
+    /**
+     * Format a date to the 'YYYY-MM-DD' format.
+     * 
+     * @param {string|Date} date - The date to format.
+     * @returns {string|null} - The formatted date string, or null if no date is provided.
+     */
     formatDate(date) {
         if (date) {
             return new Date(date).toISOString().split('T')[0]; // Format date to 'YYYY-MM-DD'
@@ -53,7 +81,14 @@ export class MakeApplicationModel {
         return null; // Return null if no date is provided
     }
 
-    // Set availability for a specific period
+    /**
+     * Set availability for a specific period (either 'from' or 'to' field).
+     * 
+     * @param {number} index - The index of the availability period to update.
+     * @param {string} field - The field to update ('from' or 'to').
+     * @param {string|Date} date - The date to set for the specified field.
+     * @returns {Object} - A response object indicating success or failure with the updated availability.
+     */
     setAvailability(index, field, date) {
         const updatedAvailability = this.applicationData.availability.map(period => ({ ...period }));
 
@@ -84,17 +119,29 @@ export class MakeApplicationModel {
         return { success: true, value: updatedAvailability };
     }
 
-    // Get only the selected competencies
+    /**
+     * Get only the selected competencies.
+     * 
+     * @returns {Array<Object>} - The list of competencies that are selected.
+     */
     getSelectedCompetencies() {
         return this.applicationData.competencies.filter(comp => comp.selected);
     }
 
-    // Get the current application data
+    /**
+     * Get the current application data, including competencies and availability.
+     * 
+     * @returns {Object} - The current application data.
+     */
     getApplicationData() {
         return this.applicationData;
     }
 
-    // Submit the application (placeholder for actual submission logic)
+    /**
+     * Submit the application with selected competencies and availability periods.
+     * 
+     * @returns {Promise<Object>} - A response indicating the success or failure of the application submission.
+     */
     async submitApplication() {
         this.responses = [];
 
@@ -114,14 +161,14 @@ export class MakeApplicationModel {
                         yearsOfExperience: expertise.yearsOfExperience
                     });
                     this.responses.push(response);
-                    console.log(response)
+                    console.log(response);
                 }
             }
 
             for (const date of this.applicationData.availability) {
                 const response = await applySource.availability(date);
                 this.responses.push(response);
-                console.log(response)
+                console.log(response);
             }
             const allSucceeded = this.responses.every(res => res.success);
             return allSucceeded

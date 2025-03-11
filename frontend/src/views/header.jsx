@@ -4,6 +4,16 @@ import "../styles/header.css";
 import { LoginPresenter } from "../presenters/loginPresenter";
 import i18next from "i18next";
 
+/**
+ * Header component displayed at the top of the application.
+ * It provides navigation options, language toggle, and login/logout functionality.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Header onLogout={handleLogout} />
+ * )
+ */
 export const Header = ({ onLogout }) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -34,6 +44,10 @@ export const Header = ({ onLogout }) => {
         }
     }, [userRole, location.search]); // Run when userRole or URL params change
 
+    /**
+     * Handles the click on the "Home" button. Redirects users to their respective dashboards 
+     * or to the home page if not logged in.
+     */
     const handleHomeClick = () => {
         if (userRole === "ROLE_RECRUITER") {
             navigate("/recLogin"); // Redirect recruiters to their dashboard
@@ -44,6 +58,10 @@ export const Header = ({ onLogout }) => {
         }
     };
 
+    /**
+     * Handles the click on the "Login/Logout" button. If the user is logged in, it logs them out;
+     * otherwise, it redirects them to the login page.
+     */
     const handleAuthClick = async () => {
         if (isLoggedIn) {
             // Handle logout
@@ -61,6 +79,10 @@ export const Header = ({ onLogout }) => {
         }
     };
 
+    /**
+     * Toggles the application language between English and Swedish.
+     * Updates the language in i18next and modifies the URL search parameter.
+     */
     const toggleLanguage = () => {
         // Get current path and search params
         const currentPath = location.pathname;

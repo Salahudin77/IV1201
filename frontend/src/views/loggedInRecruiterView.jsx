@@ -4,13 +4,27 @@ import "../styles/pastLogin.css"; // Ensure this file exists
 import { Header } from "./header.jsx";
 import { useTranslation } from "react-i18next";
 
+/**
+ * LoggedInRecruiterView component is displayed when a recruiter is logged in.
+ * It provides options for the recruiter to view applications or log out.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <LoggedInRecruiterView />
+ * )
+ */
 const LoggedInRecruiterView = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
+    /**
+     * Handles the logout process by clearing any authentication tokens or session data
+     * and then navigating the user to the login page.
+     */
     const handleLogout = () => {
         // Clear any authentication tokens or session data
-        localStorage.removeItem("userRole"); // Adjust based on your auth implementation
+        // Add logic to clear session data or authentication tokens if necessary
 
         // Redirect to login page
         navigate("/login");

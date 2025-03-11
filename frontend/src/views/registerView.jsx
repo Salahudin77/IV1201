@@ -5,10 +5,21 @@ import { RegisterPresenter } from "../presenters/registerPresenter";
 import { useTranslation } from "react-i18next";
 import Header from "./header";
 
+/**
+ * RegisterView component that renders a user registration form.
+ * Handles form state, input validation, and form submission.
+ *
+ * @component
+ * @example
+ * return (
+ *   <RegisterView />
+ * )
+ */
 const RegisterView = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
+    // State to hold registration form data
     const [registerData, setRegisterData] = useState({
         personNumber: "",
         firstName: "",
@@ -19,11 +30,18 @@ const RegisterView = () => {
         email: "",
     });
 
+    // State to hold success and error messages
     const [messages, setMessages] = useState({
         successMessage: null,
         errorMessage: null,
     });
 
+    /**
+     * Updates the success or error messages.
+     * Clears error message after 3 seconds.
+     *
+     * @param {Object} newMessages - New message data containing success and error messages.
+     */
     const updateView = (newMessages) => {
         setMessages(newMessages);
         if (newMessages.errorMessage) {
@@ -33,12 +51,24 @@ const RegisterView = () => {
         }
     };
 
+    // Presenter instance to handle registration logic
     const presenter = new RegisterPresenter(updateView);
 
+    /**
+     * Handles input changes in the form and updates the state accordingly.
+     *
+     * @param {Event} e - The event triggered by the form input change.
+     */
     const handleChange = (e) => {
         setRegisterData({ ...registerData, [e.target.name]: e.target.value });
     };
 
+    /**
+     * Validates the input data for the registration form.
+     * Checks for valid first name, last name, person number, email, user name, and password.
+     *
+     * @returns {string|null} - Error message if any validation fails, otherwise null.
+     */
     const validateInput = () => {
         const { personNumber, firstName, lastName, password, userName, email } = registerData;
 
@@ -63,6 +93,12 @@ const RegisterView = () => {
         return null;
     };
 
+    /**
+     * Handles the form submission. Validates the input data and submits the registration request.
+     * If successful, it reloads the page and navigates to the login page after a 2-second delay.
+     *
+     * @param {Event} e - The event triggered by the form submission.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         const error = validateInput();
@@ -70,9 +106,9 @@ const RegisterView = () => {
             setMessages({ successMessage: null, errorMessage: error });
             return;
         }
-        
+
         const response = await presenter.handleRegister(registerData);
-        
+
         if (response.success) {
             // Introduce a delay of 2 seconds (2000ms) before navigating and reloading
             setTimeout(() => {

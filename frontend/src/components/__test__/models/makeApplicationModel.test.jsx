@@ -1,6 +1,5 @@
 import { MakeApplicationModel } from "../../../models/makeApplicationModel";
 
-
 describe("MakeApplicationModel", () => {
     let model;
 
@@ -8,7 +7,6 @@ describe("MakeApplicationModel", () => {
         model = new MakeApplicationModel();
     });
 
-    // Test: Set Experience
     test("sets experience correctly", () => {
         const result = model.setExperience(1, "2.5");
         expect(result.success).toBe(true);
@@ -22,7 +20,6 @@ describe("MakeApplicationModel", () => {
         expect(result.message).toBe("Invalid input: Must be a valid non-negative number.");
     });
 
-    // Test: Toggle Competence Selection
     test("toggles competence selection", () => {
         model.toggleCompetence(1);
         expect(model.getApplicationData().competencies[0].selected).toBe(true);
@@ -31,14 +28,12 @@ describe("MakeApplicationModel", () => {
         expect(model.getApplicationData().competencies[0].selected).toBe(false);
     });
 
-    // Test: Add Availability Period
     test("adds a new availability period", () => {
         const initialLength = model.getApplicationData().availability.length;
         model.addAvailabilityPeriod();
         expect(model.getApplicationData().availability.length).toBe(initialLength + 1);
     });
 
-    // Test: Set Availability
     test("sets availability dates correctly", () => {
         model.addAvailabilityPeriod();
         const resultFrom = model.setAvailability(0, 'from', '2025-04-01');
@@ -59,7 +54,6 @@ describe("MakeApplicationModel", () => {
         expect(result.message).toBe("'From' date must be before 'To' date.");
     });
 
-    // Test: Get Selected Competencies
     test("retrieves selected competencies correctly", () => {
         model.toggleCompetence(1);
         model.toggleCompetence(3);
@@ -70,7 +64,6 @@ describe("MakeApplicationModel", () => {
         expect(selected[1].id).toBe(3);
     });
 
-    // Test: Submit Application
     test("submits application successfully with valid data", async () => {
         model.toggleCompetence(1);
         model.setExperience(1, "2");
@@ -78,11 +71,9 @@ describe("MakeApplicationModel", () => {
         model.setAvailability(0, 'from', '2025-04-01');
         model.setAvailability(0, 'to', '2025-04-10');
 
-        // This test runs the actual function without mocking, so we check the expected behavior.
         const result = await model.submitApplication();
         expect(result.success).toBe(false);
         expect(result.message).toBe("Failed to submit application");
-        
     });
 
     test("fails to submit when availability is missing", async () => {

@@ -1,4 +1,15 @@
 const recruiter = {
+    /**
+     * Fetches a list of all applications from the backend.
+     * 
+     * This function sends a GET request to the backend API to retrieve all applications.
+     * It handles errors gracefully and ensures the response is valid and properly formatted.
+     *
+     * @returns {Promise<Object>} A promise that resolves to an object containing the applications data.
+     *    If the request is successful, the response data is returned. If there is an error,
+     *    it returns an object with a `success` status of `false` and an error message.
+     * @throws {Error} Throws an error if the request fails or the response is not in the expected format.
+     */
     async listApplications() {
         try {
             // Send GET request to backend using fetch

@@ -1,12 +1,27 @@
 import { useState } from 'react';
 import ApplicationListModel from '../models/applicationListModel';  // Ensure this import is correct
 
+/**
+ * Custom hook that manages the application list state and fetch logic.
+ * @returns {Object} The state and functions for managing the application list.
+ * @returns {Array} applications - The list of fetched applications.
+ * @returns {boolean} isLoading - A boolean that indicates if the applications are being loaded.
+ * @returns {string | null} error - Error message if there was an error fetching the applications, otherwise null.
+ * @returns {Function} fetchApplications - Function to fetch applications from the model.
+ */
 export const useApplicationListPresenter = () => {
     const [applications, setApplications] = useState([]);  
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const model = new ApplicationListModel();  
 
+    /**
+     * Fetches the list of applications from the model and updates state accordingly.
+     * Sets the loading state while fetching and handles success/error responses.
+     * @async
+     * @function
+     * @returns {void}
+     */
     const fetchApplications = async () => {
         setIsLoading(true);
         setError(null);
@@ -37,5 +52,3 @@ export const useApplicationListPresenter = () => {
         fetchApplications,  
     };
 };
-
-
