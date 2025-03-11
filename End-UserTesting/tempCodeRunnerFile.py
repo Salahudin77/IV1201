@@ -1,1 +1,1 @@
-DanteMason
+assert "/appLogin" in driver.current_url, "Test Failed: Redirect to applicant dashboard failed."
