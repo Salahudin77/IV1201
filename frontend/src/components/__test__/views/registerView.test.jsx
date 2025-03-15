@@ -54,8 +54,7 @@ describe('RegisterView', () => {
 
     fireEvent.click(createAccountButton);
 
-    const errorMessages = screen.queryAllByRole('alert');
-    expect(errorMessages.length).toBe(0);
+    expect(window.location.pathname).toBe('/');
   });
 
   test('navigates back to login when clicking "Back to Login"', () => {

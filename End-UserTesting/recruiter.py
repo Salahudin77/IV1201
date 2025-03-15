@@ -8,23 +8,18 @@ from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 from selenium.common.exceptions import TimeoutException
 
-# Path to geckodriver and Firefox
 gecko_path = r"C:\Users\abdir\Downloads\geckodriver-v0.35.0-win64\geckodriver.exe"
 firefox_binary_path = r"C:\Users\abdir\AppData\Local\Mozilla Firefox\firefox.exe"
 
-# Set Firefox options
 options = Options()
 options.binary_location = firefox_binary_path
 
-# Set up the Firefox driver
 service = Service(executable_path=gecko_path)
 driver = webdriver.Firefox(service=service, options=options)
 
-# Login credentials
 username = "DanteMason"
 password = "EyD84euX5Nj"
 
-# Step 1: Navigate to login page with language parameter
 login_url = "http://localhost:5173/login?lng=en"
 print("Test 1: Navigating to the login page with URL:", login_url)
 try:
@@ -34,17 +29,12 @@ try:
 except Exception as e:
     print(f"Test Failed: Could not navigate to the login page. Error: {e}")
 
-# Step 2: Input the credentials and login
 print("\nTest 2: Entering credentials and attempting to login.")
 try:
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "username"))).send_keys(username)
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "password"))).send_keys(password)
-    
-    # Submit the form (click the login button)
     login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
     login_button.click()
-    
-    # Wait for the login to complete and check if the user was redirected to the right page
     WebDriverWait(driver, 10).until(EC.url_contains("/recLogin"))
     print("Test Passed: Successfully logged in and redirected to '/recLogin'.")
 except TimeoutException:
@@ -52,7 +42,6 @@ except TimeoutException:
 except Exception as e:
     print(f"Test Failed: Error during login process. Error: {e}")
 
-# Step 3: Debugging - Print current URL and page title
 print("\nTest 3: Verifying current page after login.")
 try:
     current_url = driver.current_url
@@ -64,7 +53,6 @@ try:
 except Exception as e:
     print(f"Test Failed: Error verifying the login page. Error: {e}")
 
-# Step 4: After login, navigate directly to the application list page
 print("\nTest 4: Navigating to the application list page.")
 try:
     driver.get("http://localhost:5173/applicationList")
@@ -75,7 +63,6 @@ except TimeoutException:
 except Exception as e:
     print(f"Test Failed: Error while navigating to the application list page. Error: {e}")
 
-# Step 5: Wait for the 'Fetch Applications' button to appear
 print("\nTest 5: Waiting for the 'Fetch Applications' button.")
 try:
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Fetch Applications')]")))
@@ -85,7 +72,6 @@ except TimeoutException:
 except Exception as e:
     print(f"Test Failed: Error while waiting for the 'Fetch Applications' button. Error: {e}")
 
-# Step 6: Click on the "Fetch Applications" button
 print("\nTest 6: Clicking on the 'Fetch Applications' button.")
 try:
     fetch_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Fetch Applications')]")
@@ -94,7 +80,6 @@ try:
 except Exception as e:
     print(f"Test Failed: Error while clicking the 'Fetch Applications' button. Error: {e}")
 
-# Step 7: Wait for the application list to be fetched
 print("\nTest 7: Waiting for the application list to be fetched.")
 try:
     WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, "//div[@class='table-row']")))
@@ -108,7 +93,6 @@ except TimeoutException:
 except Exception as e:
     print(f"Test Failed: Error while fetching application list. Error: {e}")
 
-# Step 8: Logout by clicking the logout button
 print("\nTest 8: Initiating logout process.")
 try:
     logout_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Logout')]")))
@@ -117,7 +101,6 @@ try:
 except Exception as e:
     print(f"Test Failed: Error while clicking logout button. Error: {e}")
 
-# Step 9: Ensure the user is redirected to the login page after logout
 print("\nTest 9: Verifying redirection to the login page after logout.")
 try:
     WebDriverWait(driver, 10).until(EC.url_to_be("http://localhost:5173/home"))
@@ -125,7 +108,6 @@ try:
 except TimeoutException:
     print("Test Failed: Timeout waiting for logout redirection. Current URL:", driver.current_url)
 
-# Step 10: Close the browser
 print("\nTest 10: Closing the browser.")
 try:
     driver.quit()
