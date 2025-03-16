@@ -3,6 +3,9 @@
 This recruitment application is developed using **Spring Boot** and **React** as part of the course IV1201. It allows job seekers to register, log in, and submit job applications, while recruiters can review and manage these applications.
 
 **Deployed version is found here:** https://iv1201-frontend-7cb3b1d26c0b.herokuapp.com/home
+**For a recruiter login:**
+*Username: marvintest*
+*password: marvintest123*
 
 ## Features
 
